@@ -1,8 +1,16 @@
 import React from "react";
-import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, Toolbar, Typography} from "@material-ui/core";
+import { useAuth } from '../../auth';
 
 
-const singup = () => {
+const signup = () => {
+    const user = useAuth();
+
+    if (!user){
+      return <div>Text</div>
+    }
+
+
     return(
 
                 <AppBar position="static">
@@ -17,4 +25,4 @@ const singup = () => {
     );
 }
 
-export default singup;
+export default signup;

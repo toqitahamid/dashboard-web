@@ -1,13 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
-import { ThemeProvider } from "@material-ui/core/styles";
+import {makeStyles, ThemeProvider} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import theme from "../src/theme";
-import NavBar from "../components/NavBar";
+import theme from "../theme";
+import { AuthProvider } from "../../auth";
+import { Box } from '@material-ui/core';
+import Copyright from "../components/copyright";
+
+
+const drawerWidth = 260;
+
+const useStyles = makeStyles((theme) => ({
+    toolbar: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        [theme.breakpoints.up('sm')]: {
+            paddingLeft: drawerWidth,
+
+        }
+
+    },
+}))
 
 export default function MyApp(props) {
     const { Component, pageProps } = props;
+    // const classes = useStyles();
 
     React.useEffect(() => {
         // Remove the server-side injected CSS.
@@ -19,6 +38,7 @@ export default function MyApp(props) {
 
     return (
         <React.Fragment>
+
             <Head>
                 <title>My page</title>
                 <meta
@@ -27,11 +47,26 @@ export default function MyApp(props) {
                 />
             </Head>
             <ThemeProvider theme={theme}>
+
+
+
                 {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                 <CssBaseline />
-                <NavBar/>
-                <Component {...pageProps} />
+
+                <AuthProvider>
+
+
+                    {/*<NavBar/>*/}
+                    {/*<main className={classes.content}>*/}
+                        {/*<div className={classes.toolbar} />*/}
+                        <Component {...pageProps} />
+                    <Box mt={200}>
+                        <Copyright />
+                    </Box>
+                    {/*</main>*/}
+                </AuthProvider>
             </ThemeProvider>
+
         </React.Fragment>
     );
 }

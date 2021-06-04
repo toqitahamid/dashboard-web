@@ -1,18 +1,24 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import {Box, Container, Link, Typography} from "@material-ui/core";
+import React from 'react';
+import Link from 'next/link';
+import { useAuth } from '../../auth';
 
-export default function Home() {
+export default () => {
+  const { user } = useAuth();
+
   return (
-      <Container maxWidth="sm">
-        <Box my={4}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Next.js example
-          </Typography>
-          <Link href="/about" color="secondary">
-            Go to the about page
-          </Link>
-        </Box>
-      </Container>
-  )
-}
+    <div style={{ padding: '40px' }}>
+      <p>{`User ID: ${user ? user.uid : 'no user signed in'}`}</p>
+
+      <p>
+        <Link href="/dashboard">
+          <a>Go to authenticated route</a>
+        </Link>
+      </p>
+      <p>
+        <Link href="/login">
+          <a>Login</a>
+        </Link>
+      </p>
+    </div>
+  );
+};
