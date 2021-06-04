@@ -18,7 +18,6 @@ import {makeStyles, useTheme} from "@material-ui/styles";
 import Link from 'next/link'
 import { useAuth } from '../../auth';
 import { firebaseClient } from '../../firebaseClient';
-import { router } from 'next/client';
 import products from '../pages/products';
 
 
