@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../auth';
 
-export default () => {
+const index = () => {
   const { user } = useAuth();
 
   return (
@@ -22,3 +22,5 @@ export default () => {
     </div>
   );
 };
+
+export default index;

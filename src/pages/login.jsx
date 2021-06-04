@@ -1,10 +1,11 @@
 import React from 'react';
-import { Avatar, Button, Container, TextField } from '@material-ui/core';
+import { Avatar, Button, Container, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LockOutlined } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import { Controller, useForm } from 'react-hook-form';
 import { firebaseClient } from '../../firebaseClient';
+import Link from '@material-ui/core/Link';
 
 const useStyle = makeStyles((theme) => ({
   paper: {
@@ -74,8 +75,8 @@ const login = () => {
                   <TextField
                     {...field}
                     variant="outlined"
-                    // margin="normal"
-                    // required
+                    margin="normal"
+                    required
                     fullWidth
                     // id="email"
                     label="Email Address"
@@ -93,8 +94,8 @@ const login = () => {
                   <TextField
                     {...field}
                     variant="outlined"
-                    // margin="normal"
-                    // required
+                    margin="normal"
+                    required
                     fullWidth
                     // id="password"
                     label="Password"
@@ -116,6 +117,13 @@ const login = () => {
               Sign In
             </Button>
           </form>
+
+          <Grid item>
+            <Link href="signup" variant="body2">
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Grid>
+
         </div>
     </Container>
     );
