@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 import nookies from "nookies";
 import { firebaseClient } from "./firebaseClient";
 
-const AuthContext = createContext<{ user: firebaseClient.User | null }>({
+const AuthContext = createContext<{ user: firebaseClient.User | null, loading:boolean }>({
   user: null,
+  loading: true,
 });
 
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<firebaseClient.User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -18,6 +20,7 @@ export function AuthProvider({ children }: any) {
       if (!user) {
         console.log(`no token found...`);
         setUser(null);
+        setLoading(true)
         nookies.destroy(null, "token");
         nookies.set(null, "token", "", {path: '/'});
         return;
@@ -26,6 +29,7 @@ export function AuthProvider({ children }: any) {
       console.log(`updating token...`);
       const token = await user.getIdToken();
       setUser(user);
+      setLoading(false);
       nookies.destroy(null, "token");
       nookies.set(null, "token", token, {path: '/'});
     });
@@ -42,7 +46,7 @@ export function AuthProvider({ children }: any) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, loading }}>{children}</AuthContext.Provider>
   );
 }
 

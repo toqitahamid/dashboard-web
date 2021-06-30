@@ -55,15 +55,13 @@ export default function MyApp(props) {
 
                 <AuthProvider>
 
-
                     {/*<NavBar/>*/}
                     {/*<main className={classes.content}>*/}
                         {/*<div className={classes.toolbar} />*/}
-                        <Component {...pageProps} />
+                    <Component {...pageProps} />
                     <Box mt={200}>
                         <Copyright />
                     </Box>
-                    {/*</main>*/}
                 </AuthProvider>
             </ThemeProvider>
 

@@ -29,7 +29,7 @@ const useStyle = makeStyles((theme) => ({
 
 }))
 
-const login = () => {
+const Login = () => {
   const classes = useStyle();
 
   const {handleSubmit, control} = useForm({
@@ -129,4 +129,4 @@ const login = () => {
     );
 };
 
-export default login;
+export default Login;

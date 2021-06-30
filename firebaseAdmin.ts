@@ -13,7 +13,7 @@ if (!privateKey || !clientEmail || !projectId) {
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert({
-      privateKey: privateKey,
+      privateKey,
       clientEmail,
       projectId,
     }),
