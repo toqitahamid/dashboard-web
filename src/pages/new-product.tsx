@@ -89,7 +89,7 @@ const NewProducts = ( ) => {
         "Access-Control-Allow-Origin": "*",
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       },
-      url: 'http://127.0.0.1:8080/api/v1/products',
+      url: 'https://0b09075b624a.ngrok.io/api/v1/products/api/v1/products',
       data: {
         title: values.title,
         price: values.price
