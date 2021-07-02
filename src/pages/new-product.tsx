@@ -89,6 +89,7 @@ const NewProducts = ( ) => {
       headers: {
         "Access-Control-Allow-Origin": "*",
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        'content-type': 'text/json'
       },
       url: 'https://api.penguin.com.bd/warranty/api/v1/products',
       data: {
