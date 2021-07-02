@@ -86,10 +86,10 @@ const NewProducts = ( ) => {
     // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     axios({
       method: 'post',
-      // headers: {
-      //   "Access-Control-Allow-Origin": "*",
-      //   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      // },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      },
       url: 'https://api.penguin.com.bd/warranty/api/v1/products',
       data: {
         title: values.title,
