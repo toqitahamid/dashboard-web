@@ -74,7 +74,8 @@ const NewProducts = ( ) => {
   const {handleSubmit, control} = useForm({
     defaultValues: {
       title:"",
-      price: ""
+      price: "",
+      warranty_period: "",
     }
   });
 
@@ -85,14 +86,15 @@ const NewProducts = ( ) => {
     // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     axios({
       method: 'post',
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      },
-      url: 'https://0b09075b624a.ngrok.io/api/v1/products/api/v1/products',
+      // headers: {
+      //   "Access-Control-Allow-Origin": "*",
+      //   'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      // },
+      url: 'https://api.penguin.com.bd/warranty/api/v1/products',
       data: {
         title: values.title,
-        price: values.price
+        price: values.price,
+        warranty_period: values.warranty_period
       }
     });
   }
@@ -139,6 +141,25 @@ const NewProducts = ( ) => {
                 fullWidth
                 // id="password"
                 label="Price"
+                // name="password"
+                // autoComplete="current-password"
+                // autoFocus
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="warranty_period"
+            render={({field}) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                // id="password"
+                label="Warranty Period"
                 // name="password"
                 // autoComplete="current-password"
                 // autoFocus
