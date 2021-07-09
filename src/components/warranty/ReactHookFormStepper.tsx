@@ -16,8 +16,6 @@ import {
 } from 'react-hook-form';
 import BasicForm from './stepper/BasicForm';
 import ContactForm from './stepper/ContactForm';
-import PersonalForm from './stepper/PersonalForm';
-import PaymentForm from './stepper/PaymentForm';
 
 const useStyles = makeStyles((theme) => ({
   button: {
