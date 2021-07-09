@@ -3,11 +3,9 @@ import nookies from 'nookies';
 import { firebaseAdmin } from '../../../firebaseAdmin';
 import NavBar from '../../components/NavBar';
 import { makeStyles } from '@material-ui/core/styles';
-import { useForm } from 'react-hook-form';
-import MultiStep from '../../components/warranty/MultiStep';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import ReactHookFormStepper from '../../components/warranty/ReactHookFormStepper';
+import WarrantyStepper from '../../components/warranty/WarrantyStepper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,9 +68,7 @@ const NewWarranty = () => {
       <NavBar selectedListItem={3} />
       <div className={classes.content}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          {/*  <BasicDatePicker />*/}
-          {/*<MultiStep />*/}
-          <ReactHookFormStepper />
+          <WarrantyStepper />
         </MuiPickersUtilsProvider>
       </div>
     </div>

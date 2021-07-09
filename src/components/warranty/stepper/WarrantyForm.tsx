@@ -13,10 +13,10 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme) => ({
   button: {
     display: 'block',
-    marginTop: theme.spacing(2),
+    marginTop: 16,
   },
   formControl: {
-    margin: theme.spacing(1),
+    margin: 8,
     minWidth: 300,
     paddingBottom: 30,
   },
@@ -49,7 +49,7 @@ const statusList = [
   },
 ];
 
-const ContactForm = () => {
+const WarrantyForm = () => {
   const classes = useStyles();
   const { control } = useFormContext();
   return (
@@ -121,4 +121,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default WarrantyForm;

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { DatePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
-const BasicForm = () => {
+const OrderForm = () => {
   const { control } = useFormContext();
 
   return (
@@ -114,4 +114,4 @@ const BasicForm = () => {
   );
 };
 
-export default BasicForm;
+export default OrderForm;
