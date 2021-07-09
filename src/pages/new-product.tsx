@@ -9,6 +9,7 @@ import { Button, TextField } from '@material-ui/core';
 import { firebaseClient } from '../../firebaseClient';
 import axios from 'axios';
 import useSWR from 'swr';
+import { useAuth } from '../../auth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,8 +37,28 @@ export const getServerSideProps = async (ctx) => {
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     const { uid, email } = token;
 
+    console.log(`Hello: ${cookies.token}`)
+
     // the user is authenticated!
     // FETCH STUFF HERE
+
+    axios.get('http://127.0.0.1:20801/warranty/api/v1/products', {
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    })
+      .then(function (response) {
+        // handle success
+        console.log(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
@@ -64,8 +85,10 @@ export const getServerSideProps = async (ctx) => {
 
 
 
-const NewProducts = ( ) => {
+const NewProducts = () => {
   const classes = useStyles();
+  const { userToken } = useAuth()
+
 
 
   // const fetcher = url => axios.get(url).then(res => res.data)
@@ -81,23 +104,39 @@ const NewProducts = ( ) => {
 
 
   const onSubmit = async (values) => {
-    console.log(values)
+    // console.log(values)
     // const { data, error } = useSWR('http://localhost:8080/products', fetcher)
     // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-    axios({
-      method: 'post',
+    axios.post('http://localhost:20801/warranty/api/v1/products', {
+      title: values.title,
+      price: parseFloat(values.price),
+      warranty_period: parseInt(values.warranty_period),
+    }, {
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        'content-type': 'text/json'
+        Authorization: `Bearer ${userToken}`,
       },
-      url: 'https://api.penguin.com.bd/warranty/api/v1/products',
-      data: {
-        title: values.title,
-        price: values.price,
-        warranty_period: values.warranty_period
-      }
-    });
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  //   axios({
+  //     method: 'post',
+  //     headers: {
+  //       "Access-Control-Allow-Origin": "*",
+  //       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     url: 'http://localhost:20801/warranty/api/v1/products',
+  //     data: JSON.stringify({
+  //       title: values.title,
+  //       price: values.price,
+  //       warranty_period: values.warranty_period
+  //     })
+  //   });
   }
 
   return(

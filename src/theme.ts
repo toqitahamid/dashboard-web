@@ -31,29 +31,26 @@
 // export const darkTheme = createMuiTheme(options(true))
 // export const lightTheme = createMuiTheme(options(false))
 
-
 import { createMuiTheme } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 
 // Create a theme instance.
 const theme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#C40000',
-        },
-        secondary: {
-            main: '#00c4c4',
-        },
-        error: {
-            main: '#f89993',
-        },
-        background: {
-            default: '#fff',
-        },
+  palette: {
+    primary: {
+      main: '#C40000',
     },
-    spacing: 1,
-
-
+    secondary: {
+      main: '#00c4c4',
+    },
+    error: {
+      main: '#f89993',
+    },
+    background: {
+      default: '#fff',
+    },
+  },
+  spacing: 1,
 });
 
 export default theme;

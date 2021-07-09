@@ -8,13 +8,13 @@ import { firebaseClient } from '../../firebaseClient';
 
 const useStyle = makeStyles((theme) => ({
   paper: {
-    paddingTop: "100px",
+    paddingTop: '100px',
     margin: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  avatar:{
+  avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
@@ -24,18 +24,17 @@ const useStyle = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  }
-
-}))
+  },
+}));
 
 const Login = () => {
   const classes = useStyle();
 
-  const {handleSubmit, control} = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
-      email:"",
-      password: ""
-    }
+      email: '',
+      password: '',
+    },
   });
 
   // const onSubmit = async (values) => {
@@ -48,9 +47,7 @@ const Login = () => {
       .auth()
       .createUserWithEmailAndPassword(values.email, values.password);
     window.location.href = 'dashboard';
-  }
-
-
+  };
 
   //
   //
@@ -60,12 +57,11 @@ const Login = () => {
   //   window.location.href = 'dashboard';
   // }
 
-
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlined/>
+          <LockOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
@@ -75,13 +71,11 @@ const Login = () => {
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
-        <Grid>
-
-        </Grid>
+          <Grid></Grid>
           <Controller
             control={control}
             name="email"
-            render={({field}) => (
+            render={({ field }) => (
               <TextField
                 {...field}
                 variant="outlined"
@@ -100,7 +94,7 @@ const Login = () => {
           <Controller
             control={control}
             name="password"
-            render={({field}) => (
+            render={({ field }) => (
               <TextField
                 {...field}
                 variant="outlined"
@@ -109,6 +103,7 @@ const Login = () => {
                 fullWidth
                 // id="password"
                 label="Password"
+                type="password"
                 // name="password"
                 // autoComplete="current-password"
                 // autoFocus

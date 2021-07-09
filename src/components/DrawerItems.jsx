@@ -44,24 +44,35 @@ const DrawerItems = ({selectedListItem}) => {
           </ListItemIcon>
           <ListItemText primary="Orders" />
         </ListItem>
+
+        <Link href={"/warranty"} passHref>
+          <ListItem button key="Warranty" selected={selectedListItem === 3}>
+            <ListItemIcon>
+              <ViewQuiltRoundedIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Warranty" />
+          </ListItem>
+          </Link>
       </List>
+
 
       <Divider/>
 
       <List>
-        <ListItem button key="Users" selected={selectedListItem === 3}>
+        <ListItem button key="Users" selected={selectedListItem === 4}>
           <ListItemIcon>
             <Inbox/>
           </ListItemIcon>
           <ListItemText primary="Users" />
         </ListItem>
 
-        <ListItem button key="Merchants" selected={selectedListItem === 4}>
+        <ListItem button key="Merchants" selected={selectedListItem === 5}>
           <ListItemIcon>
             <ViewQuiltRoundedIcon/>
           </ListItemIcon>
           <ListItemText primary="Merchants" />
         </ListItem>
+
       </List>
     </div>
 
