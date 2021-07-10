@@ -8,23 +8,53 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
+import EditIcon from '@material-ui/icons/Edit';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  editIcon: {
+    paddingRight: 0,
+  },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(rma, orderID, customerName, status, refundRequestDate) {
+  return { rma, orderID, customerName, status, refundRequestDate };
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  createData(
+    'RMA-111',
+    30159,
+    'Toqi Tahamid Sarker',
+    'New Request',
+    '5 July 2021'
+  ),
+  createData(
+    'RMA-111',
+    30237,
+    'Amit Iqbal',
+    'Pickup Request from Pathao',
+    '5 July 2021'
+  ),
+  createData(
+    'RMA-111',
+    30262,
+    'Ahmed Ahnaf',
+    'Recieved from Pathao',
+    '4 July 2021'
+  ),
+  createData(
+    'RMA-111',
+    30305,
+    'Asifur Rahman',
+    'In-house Checking',
+    '3 July 2021'
+  ),
+  createData('RMA-111', 30356, 'Bashir Ahmed', 'New Request', '1 July 2021'),
 ];
 
 export default function BasicTable() {
@@ -40,20 +70,29 @@ export default function BasicTable() {
             <TableCell align="right">Customer Name</TableCell>
             <TableCell align="right">Status</TableCell>
             <TableCell align="right">Refund Request Date</TableCell>
+            <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.name}>
+            <TableRow key={row.rma}>
               <TableCell component="th" scope="row">
+                <a>{row.rma}</a>
+              </TableCell>
+              <TableCell>{row.orderID}</TableCell>
+              <TableCell align="right">{row.customerName}</TableCell>
+              <TableCell align="right">{row.status}</TableCell>
+              <TableCell align="right">{row.refundRequestDate}</TableCell>
+              <TableCell align="right">
+                <IconButton aria-label="edit">
+                  <EditIcon className={classes.editIcon} />
+                </IconButton>
                 <Link href="/warranty/warrantyID">
-                  <a>{row.name}</a>
+                  <IconButton aria-label="arrow">
+                    <ArrowForwardIcon />
+                  </IconButton>
                 </Link>
               </TableCell>
-              <TableCell>{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
           ))}
         </TableBody>
