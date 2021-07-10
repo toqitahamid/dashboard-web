@@ -11,7 +11,6 @@ import axios from 'axios';
 import useSWR from 'swr';
 import { useAuth } from '../../auth';
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  }
+  },
 }));
 
 export const getServerSideProps = async (ctx) => {
@@ -37,16 +36,17 @@ export const getServerSideProps = async (ctx) => {
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     const { uid, email } = token;
 
-    console.log(`Hello: ${cookies.token}`)
+    console.log(`Hello: ${cookies.token}`);
 
     // the user is authenticated!
     // FETCH STUFF HERE
 
-    axios.get('http://127.0.0.1:20801/warranty/api/v1/products', {
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-    })
+    axios
+      .get('http://127.0.0.1:20801/warranty/api/v1/products', {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
       .then(function (response) {
         // handle success
         console.log(response);
@@ -59,10 +59,9 @@ export const getServerSideProps = async (ctx) => {
         // always executed
       });
 
-
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {}
+      props: {},
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -74,7 +73,7 @@ export const getServerSideProps = async (ctx) => {
     return {
       redirect: {
         permanent: false,
-        destination: "/login",
+        destination: '/login',
       },
       // `as never` is required for correct type inference
       // by InferGetServerSidePropsType below
@@ -83,39 +82,38 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-
-
 const NewProducts = () => {
   const classes = useStyles();
-  const { userToken } = useAuth()
-
-
+  const { userToken } = useAuth();
 
   // const fetcher = url => axios.get(url).then(res => res.data)
 
-
-  const {handleSubmit, control} = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
-      title:"",
-      price: "",
-      warranty_period: "",
-    }
+      title: '',
+      price: '',
+      warranty_period: '',
+    },
   });
-
 
   const onSubmit = async (values) => {
     // console.log(values)
     // const { data, error } = useSWR('http://localhost:8080/products', fetcher)
     // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-    axios.post('http://localhost:20801/warranty/api/v1/products', {
-      title: values.title,
-      price: parseFloat(values.price),
-      warranty_period: parseInt(values.warranty_period),
-    }, {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    })
+    axios
+      .post(
+        'http://localhost:20801/warranty/api/v1/products',
+        {
+          title: values.title,
+          price: parseFloat(values.price),
+          warranty_period: parseInt(values.warranty_period),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
       })
@@ -123,37 +121,35 @@ const NewProducts = () => {
         console.log(error);
       });
 
-  //   axios({
-  //     method: 'post',
-  //     headers: {
-  //       "Access-Control-Allow-Origin": "*",
-  //       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     url: 'http://localhost:20801/warranty/api/v1/products',
-  //     data: JSON.stringify({
-  //       title: values.title,
-  //       price: values.price,
-  //       warranty_period: values.warranty_period
-  //     })
-  //   });
-  }
+    //   axios({
+    //     method: 'post',
+    //     headers: {
+    //       "Access-Control-Allow-Origin": "*",
+    //       'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     url: 'http://localhost:20801/warranty/api/v1/products',
+    //     data: JSON.stringify({
+    //       title: values.title,
+    //       price: values.price,
+    //       warranty_period: values.warranty_period
+    //     })
+    //   });
+  };
 
-  return(
-    <div  className={classes.root}>
-      <NavBar selectedListItem={1}/>
+  return (
+    <div className={classes.root}>
+      <NavBar selectedListItem={1} />
       <main className={classes.content}>
-
         <form
           className={classes.form}
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
-
           <Controller
             control={control}
             name="title"
-            render={({field}) => (
+            render={({ field }) => (
               <TextField
                 {...field}
                 variant="outlined"
@@ -172,7 +168,7 @@ const NewProducts = () => {
           <Controller
             control={control}
             name="price"
-            render={({field}) => (
+            render={({ field }) => (
               <TextField
                 {...field}
                 variant="outlined"
@@ -191,7 +187,7 @@ const NewProducts = () => {
           <Controller
             control={control}
             name="warranty_period"
-            render={({field}) => (
+            render={({ field }) => (
               <TextField
                 {...field}
                 variant="outlined"
@@ -199,7 +195,7 @@ const NewProducts = () => {
                 required
                 fullWidth
                 // id="password"
-                label="Warranty Period"
+                label="Index Period"
                 // name="password"
                 // autoComplete="current-password"
                 // autoFocus
@@ -218,11 +214,9 @@ const NewProducts = () => {
             + Create Product
           </Button>
         </form>
-
       </main>
     </div>
   );
-}
+};
 
 export default NewProducts;
-

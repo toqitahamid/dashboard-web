@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Order information', 'Warranty Information'];
+  return ['Order information', 'Index Information'];
 }
 
 function getStepContent(step) {

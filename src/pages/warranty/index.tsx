@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import nookies from 'nookies';
-import { firebaseAdmin } from '../../firebaseAdmin';
-import NavBar from '../components/NavBar';
+import { firebaseAdmin } from '../../../firebaseAdmin';
+import NavBar from '../../components/NavBar';
 import { makeStyles } from '@material-ui/styles';
 import {
   Breadcrumbs,
@@ -15,8 +15,8 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { useRouter } from 'next/router';
-import NewWarranty from './warranty/new-warranty';
-import BasicTable from '../components/warranty/Table';
+import NewWarranty from './new-warranty';
+import BasicTable from '../../components/warranty/Table';
 
 const drawerWidth = 240;
 // @ts-ignore
@@ -78,7 +78,7 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const Warranty = () => {
+const Index = () => {
   const router = useRouter();
   const classes = useStyles();
 
@@ -182,4 +182,4 @@ const Warranty = () => {
     </div>
   );
 };
-export default Warranty;
+export default Index;

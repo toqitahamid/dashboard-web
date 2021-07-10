@@ -27,7 +27,7 @@ const warrantyTypeList = [
   { value: 1, text: 'Wrong Product (First 3 days of Purchase)' },
   { value: 2, text: 'Replacement (First 3 days of purchase)' },
   { value: 3, text: 'Product Sent to Merchant' },
-  { value: 4, text: 'Servicing Request (Within Warranty Period)' },
+  { value: 4, text: 'Servicing Request (Within Index Period)' },
 ];
 
 const statusList = [

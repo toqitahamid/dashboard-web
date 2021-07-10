@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Link from 'next/link';
 
 const useStyles = makeStyles({
   table: {
@@ -45,7 +46,9 @@ export default function BasicTable() {
           {rows.map((row) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
-                {row.name}
+                <Link href="/warranty/warrantyID">
+                  <a>{row.name}</a>
+                </Link>
               </TableCell>
               <TableCell>{row.calories}</TableCell>
               <TableCell align="right">{row.fat}</TableCell>
