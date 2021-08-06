@@ -15,8 +15,6 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { useRouter } from 'next/router';
-import NewWarranty from './new-warranty';
-import BasicTable from '../../components/warranty/Table';
 
 const drawerWidth = 240;
 // @ts-ignore
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     paddingTop: 100,
   },
-  newWarranty: {
+  newRefund: {
     paddingTop: 20,
     paddingBottom: 20,
   },
@@ -78,7 +76,7 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const Index = () => {
+const Refund = () => {
   const router = useRouter();
   const classes = useStyles();
 
@@ -96,28 +94,28 @@ const Index = () => {
     );
   };
 
-  const NewWarranty = () => {
+  const NewRefund = () => {
     return (
       <Button
         variant="contained"
         color="primary"
-        onClick={() => router.push('warranty/new-warranty')}
+        onClick={() => router.push('refund/new-refund')}
       >
-        + New Warranty
+        + New Refund
       </Button>
     );
   };
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={3} />
+      <NavBar selectedListItem={4} />
 
       <div className={classes.content}>
         <div>
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="h5" gutterBottom>
-                Warranty List
+                Refund List
               </Typography>
             </Grid>
           </Grid>
@@ -134,10 +132,10 @@ const Index = () => {
             justify="flex-start"
             alignItems="flex-start"
             spacing={2}
-            className={classes.newWarranty}
+            className={classes.newRefund}
           >
             <Grid item>
-              <NewWarranty />
+              <NewRefund />
             </Grid>
           </Grid>
         </div>
@@ -173,7 +171,7 @@ const Index = () => {
 
             <Grid container spacing={2}>
               <Grid item lg={12}>
-                <BasicTable />
+                {/*<BasicTable />*/}
               </Grid>
             </Grid>
           </Paper>
@@ -182,4 +180,4 @@ const Index = () => {
     </div>
   );
 };
-export default Index;
+export default Refund;

@@ -31,11 +31,11 @@
 // export const darkTheme = createMuiTheme(options(true))
 // export const lightTheme = createMuiTheme(options(false))
 
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 
 // Create a theme instance.
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: '#C40000',

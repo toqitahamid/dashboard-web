@@ -9,8 +9,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm, FormProvider } from 'react-hook-form';
 import OrderForm from './stepper/OrderForm';
-import WarrantyForm from './stepper/WarrantyForm';
-import axios from 'axios';
+import RefundForm from './stepper/RefundForm';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Order information', 'Warranty Information'];
+  return ['Order information', 'Refund Information'];
 }
 
 function getStepContent(step) {
@@ -27,28 +26,26 @@ function getStepContent(step) {
     case 0:
       return <OrderForm />;
     case 1:
-      return <WarrantyForm />;
+      return <RefundForm />;
 
     default:
       return 'unknown step';
   }
 }
 
-const WarrantyStepper = () => {
+const RefundStepper = () => {
   const classes = useStyles();
   const methods = useForm({
     defaultValues: {
-      rma_id: '',
-      rma_creation_date: '',
+      orderID: '',
+      orderDate: new Date(),
       sku: '',
-      order_id: '',
-      product_name: '',
-      customer_name: '',
-      customer_phone: '',
-      reason: '',
-      warranty_type: '',
+      customerName: '',
+      phoneNo: '',
       status: '',
-      merchant_name: '',
+      refundType: '',
+      refundAmount: '',
+      paymentGateway: '',
     },
   });
   const [activeStep, setActiveStep] = useState(0);
@@ -63,85 +60,15 @@ const WarrantyStepper = () => {
     return skippedSteps.includes(step);
   };
 
-  const handleSubmit = (data) => {
-    console.log(data);
-    // http://localhost:20801/warranty/api/v1/warranty/create
-    if (activeStep == steps.length - 1) {
-      axios
-        .post('http://localhost:20801/warranty/api/v1/warranty/create', {
-          rma_id: data.rma_id,
-          rma_creation_date: data.rma_creation_date,
-          sku: data.sku,
-          order_id: data.order_id,
-          product_name: data.product_name,
-          customer_name: data.customer_name,
-          customer_phone: data.customer_phone,
-          reason: data.reason,
-          warranty_type: data.warranty_type,
-          status: data.status,
-          merchant_name: data.merchant_name,
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      // axios({
-      //   method: 'post',
-      //   url: 'http://localhost:20801/warranty/api/v1/warranty/create',
-      //   data: {
-      //     rma_id: data.rma_id,
-      //     rma_creation_date: data.rma_creation_date,
-      //     sku: data.sku,
-      //     order_id: data.order_id,
-      //     product_name: data.product_name,
-      //     customer_name: data.customer_name,
-      //     customer_phone: data.customer_phone,
-      //     reason: data.reason,
-      //     warranty_type: data.warranty_type,
-      //     status: data.status,
-      //   },
-      // })
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
-    } else {
-      setActiveStep(activeStep + 1);
-      setSkippedSteps(
-        skippedSteps.filter((skipItem) => skipItem !== activeStep)
-      );
-    }
-  };
-
   const handleNext = (data) => {
     console.log(data);
     if (activeStep == steps.length - 1) {
-      axios
-        .post('http://localhost:20801/warranty/api/v1/warranty/create', {
-          rma_id: data.rma_id,
-          rma_creation_date: data.rma_creation_date,
-          sku: data.sku,
-          order_id: data.order_id,
-          product_name: data.product_name,
-          customer_name: data.customer_name,
-          customer_phone: data.customer_phone,
-          reason: data.reason,
-          warranty_type: data.warranty_type,
-          status: data.status,
-          merchant_name: data.merchant_name,
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
+      fetch('https://jsonplaceholder.typicode.com/comments')
+        .then((data) => data.json())
+        .then((res) => {
+          console.log(res);
+          setActiveStep(activeStep + 1);
         });
-      setActiveStep(activeStep + 1);
     } else {
       setActiveStep(activeStep + 1);
       setSkippedSteps(
@@ -222,29 +149,6 @@ const WarrantyStepper = () => {
               {/*    skip*/}
               {/*  </Button>*/}
               {/*)}*/}
-
-              {/*{activeStep === steps.length - 1 ? (*/}
-              {/*  <Button*/}
-              {/*    className={classes.button}*/}
-              {/*    variant="contained"*/}
-              {/*    color="primary"*/}
-              {/*    // onClick={handleSubmit}*/}
-              {/*    type="submit"*/}
-              {/*  >*/}
-              {/*    Finish*/}
-              {/*  </Button>*/}
-              {/*) : (*/}
-              {/*  <Button*/}
-              {/*    className={classes.button}*/}
-              {/*    variant="contained"*/}
-              {/*    color="primary"*/}
-              {/*    // onClick={handleNext}*/}
-              {/*    // type="submit"*/}
-              {/*  >*/}
-              {/*    Next*/}
-              {/*  </Button>*/}
-              {/*)}*/}
-
               <Button
                 className={classes.button}
                 variant="contained"
@@ -262,4 +166,4 @@ const WarrantyStepper = () => {
   );
 };
 
-export default WarrantyStepper;
+export default RefundStepper;

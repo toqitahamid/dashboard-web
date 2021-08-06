@@ -13,7 +13,7 @@ const OrderForm = () => {
         <Grid item xs={12}>
           <Controller
             control={control}
-            name="rmaID"
+            name="rma_id"
             render={({ field }) => (
               <TextField
                 id="rma-id"
@@ -28,23 +28,71 @@ const OrderForm = () => {
           />
         </Grid>
 
-        <Grid item>
-          <Controller
-            control={control}
-            name="rmaCreationDate"
-            render={({ field }) => (
-              <KeyboardDatePicker
-                placeholder="10/10/2020"
-                disableFuture
-                format="dd/MM/yyyy"
-                label="RMA Creation Date"
-                // views={['year', 'month', 'date']}
-                onChange={(date) => field.onChange(date)}
-                value={field.value}
-              />
-            )}
-          />
-        </Grid>
+        <Controller
+          control={control}
+          name="rma_creation_date"
+          render={({ field }) => (
+            <TextField
+              id="rma-creation-date"
+              label="RMA Date"
+              variant="standard"
+              placeholder="Enter RMA Date"
+              fullWidth
+              margin="normal"
+              {...field}
+            />
+          )}
+        />
+
+        {/*<Grid item>*/}
+        {/*  <Controller*/}
+        {/*    control={control}*/}
+        {/*    name="rma_creation_date"*/}
+        {/*    render={({ field }) => (*/}
+        {/*      <KeyboardDatePicker*/}
+        {/*        placeholder="10/10/2020"*/}
+        {/*        disableFuture*/}
+        {/*        format="dd/MM/yyyy"*/}
+        {/*        label="RMA Creation Date"*/}
+        {/*        // views={['year', 'month', 'date']}*/}
+        {/*        onChange={(date) => field.onChange(date)}*/}
+        {/*        value={field.value}*/}
+        {/*      />*/}
+        {/*    )}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
+
+        <Controller
+          control={control}
+          name="order_id"
+          render={({ field }) => (
+            <TextField
+              id="order-id"
+              label="Order ID"
+              variant="standard"
+              placeholder="Order ID"
+              fullWidth
+              margin="normal"
+              {...field}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="product_name"
+          render={({ field }) => (
+            <TextField
+              id="product-name"
+              label="Product Name"
+              variant="standard"
+              placeholder="Product Name"
+              fullWidth
+              margin="normal"
+              {...field}
+            />
+          )}
+        />
 
         <Controller
           control={control}
@@ -64,45 +112,29 @@ const OrderForm = () => {
 
         <Controller
           control={control}
-          name="orderID"
-          render={({ field }) => (
-            <TextField
-              id="order-id"
-              label="Order ID"
-              variant="standard"
-              placeholder="Order ID"
-              fullWidth
-              margin="normal"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="productName"
-          render={({ field }) => (
-            <TextField
-              id="product-name"
-              label="Product Name"
-              variant="standard"
-              placeholder="Product Name"
-              fullWidth
-              margin="normal"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="customerName"
+          name="customer_name"
           render={({ field }) => (
             <TextField
               id="customer-name"
               label="Customer Name"
               variant="standard"
               placeholder="Customer Name"
+              fullWidth
+              margin="normal"
+              {...field}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="customer_phone"
+          render={({ field }) => (
+            <TextField
+              id="customer-phone"
+              label="Customer Phone"
+              variant="standard"
+              placeholder="Customer Phone"
               fullWidth
               margin="normal"
               {...field}
