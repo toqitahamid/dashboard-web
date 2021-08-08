@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DrawerItems = ({ selectedListItem }) => {
+const DrawerItems = ({ selectedListItem, token }) => {
   const classes = useStyles();
   const router = useRouter();
 
@@ -54,28 +54,37 @@ const DrawerItems = ({ selectedListItem }) => {
           </ListItem>
         </Link>
 
-        <Link href={'/products'} passHref>
-          <ListItem
-            dense
-            button
-            key="Products"
-            selected={selectedListItem === 1}
-          >
-            <ListItemIcon>
-              <Inbox />
-            </ListItemIcon>
-            <ListItemText primary="Products" />
-          </ListItem>
-        </Link>
+        {token.admin ? (
+          <Link href={'/products'} passHref>
+            <ListItem
+              dense
+              button
+              key="Products"
+              selected={selectedListItem === 1}
+            >
+              <ListItemIcon>
+                <Inbox />
+              </ListItemIcon>
+              <ListItemText primary="Products" />
+            </ListItem>
+          </Link>
+        ) : null}
 
-        <Link href={'/order'} passHref>
-          <ListItem dense button key="Orders" selected={selectedListItem === 2}>
-            <ListItemIcon>
-              <ViewQuiltRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Orders" />
-          </ListItem>
-        </Link>
+        {token.admin ? (
+          <Link href={'/order'} passHref>
+            <ListItem
+              dense
+              button
+              key="Orders"
+              selected={selectedListItem === 2}
+            >
+              <ListItemIcon>
+                <ViewQuiltRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Orders" />
+            </ListItem>
+          </Link>
+        ) : null}
 
         <ListItem dense button onClick={handleClick} key="Warranty">
           <ListItemIcon>
@@ -177,21 +186,23 @@ const DrawerItems = ({ selectedListItem }) => {
 
       <Divider />
 
-      <List>
-        <ListItem dense button key="Users" selected={selectedListItem === 9}>
-          <ListItemIcon>
-            <Inbox />
-          </ListItemIcon>
-          <ListItemText primary="Users" />
-        </ListItem>
+      {token.admin ? (
+        <List>
+          <ListItem dense button key="Users" selected={selectedListItem === 9}>
+            <ListItemIcon>
+              <Inbox />
+            </ListItemIcon>
+            <ListItemText primary="Users" />
+          </ListItem>
 
-        {/*<ListItem button key="Merchants" selected={selectedListItem === 9}>*/}
-        {/*  <ListItemIcon>*/}
-        {/*    <ViewQuiltRoundedIcon />*/}
-        {/*  </ListItemIcon>*/}
-        {/*  <ListItemText primary="Merchants" />*/}
-        {/*</ListItem>*/}
-      </List>
+          {/*<ListItem button key="Merchants" selected={selectedListItem === 9}>*/}
+          {/*  <ListItemIcon>*/}
+          {/*    <ViewQuiltRoundedIcon />*/}
+          {/*  </ListItemIcon>*/}
+          {/*  <ListItemText primary="Merchants" />*/}
+          {/*</ListItem>*/}
+        </List>
+      ) : null}
     </div>
   );
 };

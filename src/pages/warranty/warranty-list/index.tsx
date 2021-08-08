@@ -48,16 +48,16 @@ const useStyles = makeStyles((theme) => ({
 export const getServerSideProps = async (ctx) => {
   try {
     const cookies = nookies.get(ctx);
-    console.log(JSON.stringify(cookies, null, 2));
+    // console.log(JSON.stringify(cookies, null, 2));
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
-    const { uid, email } = token;
+    const { uid, email, admin } = token;
 
     // the user is authenticated!
     // FETCH STUFF HERE
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -78,21 +78,27 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
-const WarrantyList = () => {
+const WarrantyList = ({ cookies, token }) => {
+  console.log(cookies.token);
   const router = useRouter();
   const classes = useStyles();
+  // console.log(`Claim: ${claim}`);
+
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
+  const fetcher = (url) => fetch(url, config).then((res) => res.json());
 
   const { data, error } = useSWR(
     'http://localhost:20801/warranty/api/v1/warranty/getWarrantyList',
     fetcher
   );
 
-  if (error) return 'An error has occurred.';
+  if (error) return <div>An error has occurred</div>;
   if (!data) return 'Loading...';
 
-  console.log(data);
+  // console.log(data);
 
   const Breadcrumb = () => {
     return (
@@ -122,7 +128,7 @@ const WarrantyList = () => {
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={4} />
+      <NavBar selectedListItem={4} token={token} />
 
       <div className={classes.content}>
         <div>

@@ -77,7 +77,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -168,7 +168,7 @@ const WarrantyID = () => {
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={3} />
+      <NavBar selectedListItem={3} token={token} />
 
       <div className={classes.content}>
         <div className={classes.breadcrumb}>

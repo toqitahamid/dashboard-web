@@ -70,7 +70,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -91,19 +91,23 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
-const Index = () => {
+const Index = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
+
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
+  const fetcher = (url) => fetch(url, config).then((res) => res.json());
 
   const { data, error } = useSWR(
     'http://localhost:20801/warranty/api/v1/merchant',
     fetcher
   );
 
-  if (error) return 'An error has occurred.';
-  if (!data) return 'Loading...';
+  if (error) return <div>An error has occurred</div>;
+  if (!data) return <div>Loading...</div>;
 
   // console.log(data);
 
@@ -136,7 +140,7 @@ const Index = () => {
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={7} />
+      <NavBar selectedListItem={7} token={token} />
 
       <div className={classes.content}>
         <div>
@@ -163,7 +167,7 @@ const Index = () => {
             className={classes.newWarranty}
           >
             <Grid item>
-              <NewMerchant />
+              <NewMerchant cookies={cookies} />
             </Grid>
           </Grid>
         </div>

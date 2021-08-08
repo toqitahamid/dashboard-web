@@ -36,7 +36,7 @@ export const getServerSideProps = async (ctx) => {
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     const { uid, email } = token;
 
-    console.log(`Hello: ${cookies.token}`);
+    // console.log(`Hello: ${cookies.token}`);
 
     // the user is authenticated!
     // FETCH STUFF HERE
@@ -61,7 +61,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -82,7 +82,7 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const NewProducts = () => {
+const NewProducts = ({ cookies, token }) => {
   const classes = useStyles();
   const { userToken } = useAuth();
 
@@ -139,7 +139,7 @@ const NewProducts = () => {
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={1} />
+      <NavBar selectedListItem={1} token={token} />
       <main className={classes.content}>
         <form
           className={classes.form}

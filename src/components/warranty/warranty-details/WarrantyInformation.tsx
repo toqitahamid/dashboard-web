@@ -53,7 +53,7 @@ const useToggle = (initialState = false) => {
   return [state, toggle];
 };
 
-const WarrantyInformation = ({ warrantyId }) => {
+const WarrantyInformation = ({ warrantyId, cookies }) => {
   const classes = useStyles();
 
   const onSubmit = (data) => console.log(data);
@@ -65,10 +65,15 @@ const WarrantyInformation = ({ warrantyId }) => {
 
   const [warrantyDetails, setWarrantyDetails] = useState([]);
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   useEffect(() => {
     const warranties = async () => {
       const response = await axios(
-        `http://localhost:20801/warranty/api/v1/warranty/getWarrantyDetails/${warrantyId}`
+        `http://localhost:20801/warranty/api/v1/warranty/getWarrantyDetails/${warrantyId}`,
+        config
       );
       setWarrantyDetails(response.data.data);
       console.log(response.data.data);
@@ -114,6 +119,7 @@ const WarrantyInformation = ({ warrantyId }) => {
                   currentStatus={warrantyDetails.status}
                   warrantyId={warrantyId}
                   setIsStatusChanged={setIsStatusChanged}
+                  cookies={cookies}
                 />
               </TableCell>
             </TableRow>
@@ -128,6 +134,7 @@ const WarrantyInformation = ({ warrantyId }) => {
                   currentDate={warrantyDetails.product_received_date}
                   warrantyId={warrantyId}
                   setIsDateChanged={setIsDateChanged}
+                  cookies={cookies}
                 />
               </TableCell>
             </TableRow>

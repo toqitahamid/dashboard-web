@@ -1,9 +1,9 @@
-import React from "react";
-import nookies from "nookies";
-import { useRouter } from 'next/router'
-import { firebaseAdmin } from "../../firebaseAdmin";
+import React from 'react';
+import nookies from 'nookies';
+import { useRouter } from 'next/router';
+import { firebaseAdmin } from '../../firebaseAdmin';
 
-import { InferGetServerSidePropsType, GetServerSidePropsContext } from "next";
+import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next';
 import NavBar from '../components/NavBar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -31,7 +31,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {login: true}
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -43,7 +43,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {
       redirect: {
         permanent: false,
-        destination: "/login",
+        destination: '/login',
       },
       // `as never` is required for correct type inference
       // by InferGetServerSidePropsType below
@@ -52,28 +52,20 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }
 };
 
-function AuthenticatedDashboard(
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) {
-
+function AuthenticatedDashboard({ cookies, token }) {
   const classes = useStyles();
 
   return (
     <>
       <div className={classes.root}>
-      <NavBar selectedListItem={0}/>
+        <NavBar selectedListItem={0} token={token} />
 
         <main className={classes.content}>
-
-            <Typography paragraph>
-              Content
-            </Typography>
-
+          <Typography paragraph>Content</Typography>
         </main>
       </div>
     </>
-
-  )
+  );
 }
 
 export default AuthenticatedDashboard;

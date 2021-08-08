@@ -29,7 +29,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {}
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -41,7 +41,7 @@ export const getServerSideProps = async (ctx) => {
     return {
       redirect: {
         permanent: false,
-        destination: "/login",
+        destination: '/login',
       },
       // `as never` is required for correct type inference
       // by InferGetServerSidePropsType below
@@ -50,26 +50,20 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-
-
-const Products = ( ) => {
-
+const Products = ({ cookies, token }) => {
   const classes = useStyles();
 
-  return(
-    <div  className={classes.root}>
-      <NavBar selectedListItem={1}/>
+  return (
+    <div className={classes.root}>
+      <NavBar selectedListItem={1} token={token} />
       <main className={classes.content}>
-
-        <Link href={"/new-product"} passHref>
+        <Link href={'/new-product'} passHref>
           <Button variant="contained" color="primary">
-          + New Product
-        </Button>
-          </Link>
-
+            + New Product
+          </Button>
+        </Link>
       </main>
     </div>
   );
-}
+};
 export default Products;
-

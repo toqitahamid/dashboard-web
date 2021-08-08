@@ -25,16 +25,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import NavBar from '../../../components/NavBar';
 import PropTypes from 'prop-types';
-import TableContainer from '@material-ui/core/TableContainer';
-import Table from '@material-ui/core/Table';
-import Paper from '@material-ui/core/Paper';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
 import useSWR from 'swr';
 import OrderInformation from '../../../components/warranty/warranty-details/OrderInformation';
 import WarrantyInformation from '../../../components/warranty/warranty-details/WarrantyInformation';
@@ -83,7 +73,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -137,7 +127,7 @@ function a11yProps(index) {
   };
 }
 
-const Id = () => {
+const Id = ({ cookies, token }) => {
   const classes = useStyles();
   const router = useRouter();
   const { id } = router.query;
@@ -145,7 +135,12 @@ const Id = () => {
 
   const [value, setValue] = React.useState(0);
 
-  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const fetcher = (url) =>
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    }).then((res) => res.json());
   const { data, error } = useSWR(
     `http://localhost:20801/warranty/api/v1/order/getOrderDetails/${id}`,
     fetcher
@@ -179,7 +174,7 @@ const Id = () => {
   // @ts-ignore
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={4} />
+      <NavBar selectedListItem={4} token={token} />
 
       <div className={classes.content}>
         <div className={classes.breadcrumb}>
@@ -219,19 +214,19 @@ const Id = () => {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          <WarrantyInformation warrantyId={id} />
+          <WarrantyInformation warrantyId={id} cookies={cookies} />
         </TabPanel>
 
         <TabPanel value={value} index={2}>
-          <MerchantInformation warrantyId={id} />
+          <MerchantInformation warrantyId={id} cookies={cookies} />
         </TabPanel>
 
         <TabPanel index={3} value={value}>
-          <StatusHistory warrantyId={id} />
+          <StatusHistory warrantyId={id} cookies={cookies} />
         </TabPanel>
 
         <TabPanel index={4} value={value}>
-          <ReasonHistory warrantyId={id} />
+          <ReasonHistory warrantyId={id} cookies={cookies} />
         </TabPanel>
       </div>
     </div>

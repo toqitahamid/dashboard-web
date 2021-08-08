@@ -10,7 +10,7 @@ import { Divider } from '@material-ui/core';
 import { Controller, useForm } from 'react-hook-form';
 import axios from 'axios';
 
-export default function FormDialog() {
+export default function FormDialog({ cookies }) {
   const [open, setOpen] = React.useState(false);
 
   const { handleSubmit, control } = useForm({
@@ -27,11 +27,19 @@ export default function FormDialog() {
     setOpen(false);
   };
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   const onSubmit = async (values) => {
     axios
-      .post('http://localhost:20801/warranty/api/v1/status', {
-        status: values.status,
-      })
+      .post(
+        'http://localhost:20801/warranty/api/v1/status',
+        {
+          status: values.status,
+        },
+        config
+      )
       .then(function (response) {
         console.log(response);
       })

@@ -35,10 +35,15 @@ export default function FormDialog({
   currentMerchant,
   warrantyId,
   setIsMerchantChanged,
+  cookies,
 }) {
   const [open, setOpen] = React.useState(false);
 
   const [merchantList, setMerchantList] = useState([]);
+
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -51,7 +56,8 @@ export default function FormDialog({
   useEffect(() => {
     const merchants = async () => {
       const response = await axios(
-        `http://localhost:20801/warranty/api/v1/merchant`
+        `http://localhost:20801/warranty/api/v1/merchant`,
+        config
       );
       setMerchantList(response.data.data);
       console.log(response.data.data);
@@ -74,7 +80,8 @@ export default function FormDialog({
         `http://localhost:20801/warranty/api/v1/warranty/update-merchant-name/${warrantyId}`,
         {
           merchant_name: values.merchant_name,
-        }
+        },
+        config
       )
       .then(setIsMerchantChanged);
     console.log(values);

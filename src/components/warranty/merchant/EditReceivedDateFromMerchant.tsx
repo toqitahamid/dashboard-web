@@ -32,6 +32,7 @@ export default function Index({
   currentReceivedDateFromMerchant,
   warrantyId,
   setIsReceivedDateFromMerchantChanged,
+  cookies,
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -62,6 +63,10 @@ export default function Index({
     setOpen(false);
   };
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   const onSubmit = async (values) => {
     setOpen(false);
     const res = await axios
@@ -70,7 +75,8 @@ export default function Index({
         {
           product_received_date_from_merchant:
             values.product_received_date_from_merchant,
-        }
+        },
+        config
       )
       .then(setIsReceivedDateFromMerchantChanged);
     console.log(values);

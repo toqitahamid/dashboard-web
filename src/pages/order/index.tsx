@@ -57,7 +57,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -78,7 +78,7 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const Order = () => {
+const Order = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
 
@@ -110,75 +110,77 @@ const Order = () => {
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={2} />
+      <NavBar selectedListItem={2} token={token} />
 
-      <div className={classes.content}>
-        <div>
-          <Grid container spacing={2}>
-            <Grid item>
-              <Typography variant="h5" gutterBottom>
-                Order List
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item>
-              <Breadcrumb />
-            </Grid>
-          </Grid>
-
-          <Grid
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="flex-start"
-            spacing={2}
-            className={classes.newWarranty}
-          >
-            <Grid item>
-              <NewOrder />
-            </Grid>
-          </Grid>
-        </div>
-
-        <div className={classes.table}>
-          <Paper variant="outlined">
-            <Grid
-              container
-              spacing={2}
-              direction="row"
-              justify="flex-start"
-              alignItems="center"
-            >
-              <div className={classes.warrantySearch}>
-                <Grid item>
-                  <TextField
-                    id="outlined-basic"
-                    label="Outlined"
-                    variant="outlined"
-                  />
-                </Grid>
-              </div>
-
+      {token.admin ? (
+        <div className={classes.content}>
+          <div>
+            <Grid container spacing={2}>
               <Grid item>
-                <Switch inputProps={{ 'aria-label': 'primary checkbox' }} />
-              </Grid>
-              <Grid item className={classes.status}>
-                <Typography variant="body1" gutterBottom>
-                  Refunded
+                <Typography variant="h5" gutterBottom>
+                  Order List
                 </Typography>
               </Grid>
             </Grid>
 
             <Grid container spacing={2}>
-              <Grid item lg={12}>
-                {/*<BasicTable />*/}
+              <Grid item>
+                <Breadcrumb />
               </Grid>
             </Grid>
-          </Paper>
+
+            <Grid
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="flex-start"
+              spacing={2}
+              className={classes.newWarranty}
+            >
+              <Grid item>
+                <NewOrder />
+              </Grid>
+            </Grid>
+          </div>
+
+          <div className={classes.table}>
+            <Paper variant="outlined">
+              <Grid
+                container
+                spacing={2}
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+              >
+                <div className={classes.warrantySearch}>
+                  <Grid item>
+                    <TextField
+                      id="outlined-basic"
+                      label="Outlined"
+                      variant="outlined"
+                    />
+                  </Grid>
+                </div>
+
+                <Grid item>
+                  <Switch inputProps={{ 'aria-label': 'primary checkbox' }} />
+                </Grid>
+                <Grid item className={classes.status}>
+                  <Typography variant="body1" gutterBottom>
+                    Refunded
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2}>
+                <Grid item lg={12}>
+                  {/*<BasicTable />*/}
+                </Grid>
+              </Grid>
+            </Paper>
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };

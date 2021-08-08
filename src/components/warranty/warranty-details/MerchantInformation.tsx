@@ -67,7 +67,7 @@ const useToggle = (initialState = false) => {
   return [state, toggle];
 };
 
-const MerchantInformation = ({ warrantyId }) => {
+const MerchantInformation = ({ warrantyId, cookies }) => {
   const classes = useStyles();
 
   const [selectedDate, setSelectedDate] = React.useState(
@@ -94,10 +94,15 @@ const MerchantInformation = ({ warrantyId }) => {
 
   const [isMerchantDecisionChanged, setIsMerchantDecisionChanged] = useToggle();
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   useEffect(() => {
     const warranties = async () => {
       const response = await axios(
-        `http://localhost:20801/warranty/api/v1/warranty/getMerchantDetails/${warrantyId}`
+        `http://localhost:20801/warranty/api/v1/warranty/getMerchantDetails/${warrantyId}`,
+        config
       );
       setMerchantDetails(response.data.data);
       setSentToMerchant(merchantDetails.sent_to_merchant);
@@ -137,6 +142,7 @@ const MerchantInformation = ({ warrantyId }) => {
                   currentMerchant={merchantDetails.merchant_name}
                   warrantyId={warrantyId}
                   setIsMerchantChanged={setIsMerchantChanged}
+                  cookies={cookies}
                 />
               </TableCell>
             </TableRow>
@@ -150,6 +156,7 @@ const MerchantInformation = ({ warrantyId }) => {
                   currentSentToMerchant={merchantDetails.sent_to_merchant}
                   warrantyId={warrantyId}
                   setIsSentToMerchantChanged={setIsSentToMerchantChanged}
+                  cookies={cookies}
                 />
               </TableCell>
             </TableRow>
@@ -165,6 +172,7 @@ const MerchantInformation = ({ warrantyId }) => {
                   }
                   setIsSentDateToMerchantChanged={setIsSentDateToMerchantChange}
                   warrantyId={warrantyId}
+                  cookies={cookies}
                 />
               </TableCell>
             </TableRow>
@@ -182,6 +190,7 @@ const MerchantInformation = ({ warrantyId }) => {
                   setIsReceivedDateFromMerchantChanged={
                     setIsReceivedDateFromMerchantChange
                   }
+                  cookies={cookies}
                 />
               </TableCell>
             </TableRow>
@@ -195,6 +204,7 @@ const MerchantInformation = ({ warrantyId }) => {
                   currentMerchantDecision={merchantDetails.merchant_decision}
                   warrantyId={warrantyId}
                   setIsMerchantDecisionChanged={setIsMerchantDecisionChanged}
+                  cookies={cookies}
                 />
               </TableCell>
             </TableRow>

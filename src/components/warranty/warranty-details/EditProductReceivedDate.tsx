@@ -35,6 +35,7 @@ export default function FormDialog({
   currentDate,
   warrantyId,
   setIsDateChanged,
+  cookies,
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -64,6 +65,10 @@ export default function FormDialog({
     setOpen(false);
   };
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   const onSubmit = async (values) => {
     setOpen(false);
     const res = await axios
@@ -71,7 +76,8 @@ export default function FormDialog({
         `http://localhost:20801/warranty/api/v1/warranty/update-product-received-date/${warrantyId}`,
         {
           product_received_date: values.product_received_date,
-        }
+        },
+        config
       )
       .then(setIsDateChanged);
     console.log(values);

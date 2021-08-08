@@ -31,6 +31,7 @@ export default function Index({
   currentMerchantDecision,
   warrantyId,
   setIsMerchantDecisionChanged,
+  cookies,
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -61,6 +62,10 @@ export default function Index({
     setOpen(false);
   };
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   const onSubmit = async (values) => {
     setOpen(false);
     const res = await axios
@@ -68,7 +73,8 @@ export default function Index({
         `http://localhost:20801/warranty/api/v1/warranty/update-merchant-decision/${warrantyId}`,
         {
           merchant_decision: values.merchant_decision,
-        }
+        },
+        config
       )
       .then(setIsMerchantDecisionChanged);
     console.log(values);

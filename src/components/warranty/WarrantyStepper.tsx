@@ -34,7 +34,7 @@ function getStepContent(step) {
   }
 }
 
-const WarrantyStepper = () => {
+const WarrantyStepper = ({ cookies }) => {
   const classes = useStyles();
   const methods = useForm({
     defaultValues: {
@@ -118,23 +118,30 @@ const WarrantyStepper = () => {
     }
   };
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
   const handleNext = (data) => {
     console.log(data);
     if (activeStep == steps.length - 1) {
       axios
-        .post('http://localhost:20801/warranty/api/v1/warranty/create', {
-          rma_id: data.rma_id,
-          rma_creation_date: data.rma_creation_date,
-          sku: data.sku,
-          order_id: data.order_id,
-          product_name: data.product_name,
-          customer_name: data.customer_name,
-          customer_phone: data.customer_phone,
-          reason: data.reason,
-          warranty_type: data.warranty_type,
-          status: data.status,
-          merchant_name: data.merchant_name,
-        })
+        .post(
+          'http://localhost:20801/warranty/api/v1/warranty/create',
+          {
+            rma_id: data.rma_id,
+            rma_creation_date: data.rma_creation_date,
+            sku: data.sku,
+            order_id: data.order_id,
+            product_name: data.product_name,
+            customer_name: data.customer_name,
+            customer_phone: data.customer_phone,
+            reason: data.reason,
+            warranty_type: data.warranty_type,
+            status: data.status,
+            merchant_name: data.merchant_name,
+          },
+          config
+        )
         .then((response) => {
           console.log(response);
         })

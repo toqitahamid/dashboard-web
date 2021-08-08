@@ -39,7 +39,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -60,15 +60,15 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const NewWarranty = () => {
+const NewWarranty = ({ cookies, token }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={3} />
+      <NavBar selectedListItem={3} token={token} />
       <div className={classes.content}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <WarrantyStepper />
+          <WarrantyStepper cookies={cookies} />
         </MuiPickersUtilsProvider>
       </div>
     </div>

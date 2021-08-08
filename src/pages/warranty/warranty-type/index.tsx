@@ -68,7 +68,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -89,11 +89,15 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
-const WarrantyType = () => {
+const WarrantyType = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
+
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
+  const fetcher = (url) => fetch(url, config).then((res) => res.json());
 
   const { data, error } = useSWR(
     'http://localhost:20801/warranty/api/v1/warranty-type',
@@ -120,21 +124,9 @@ const WarrantyType = () => {
     );
   };
 
-  // const NewWarranty = () => {
-  //   return (
-  //     <Button
-  //       variant="contained"
-  //       color="primary"
-  //       onClick={() => router.push('warranty/new-warranty')}
-  //     >
-  //       + New Warranty
-  //     </Button>
-  //   );
-  // };
-
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={6} />
+      <NavBar selectedListItem={6} token={token} />
 
       <div className={classes.content}>
         <div>
@@ -161,7 +153,7 @@ const WarrantyType = () => {
             className={classes.newWarranty}
           >
             <Grid item>
-              <NewWarrantyType />
+              <NewWarrantyType cookies={cookies} />
             </Grid>
           </Grid>
         </div>

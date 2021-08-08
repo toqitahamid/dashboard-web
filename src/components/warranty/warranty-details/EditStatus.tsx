@@ -38,6 +38,7 @@ export default function FormDialog({
   currentStatus,
   warrantyId,
   setIsStatusChanged,
+  cookies,
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -56,10 +57,15 @@ export default function FormDialog({
 
   const classes = useStyles();
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   useEffect(() => {
     const statuses = async () => {
       const response = await axios(
-        `http://localhost:20801/warranty/api/v1/status`
+        `http://localhost:20801/warranty/api/v1/status`,
+        config
       );
       setStatusList(response.data.data);
       // console.log(response.data.data);
@@ -102,7 +108,8 @@ export default function FormDialog({
         `http://localhost:20801/warranty/api/v1/warranty/update-status-by-name/${warrantyId}`,
         {
           status: values.status,
-        }
+        },
+        config
       )
       .then(setIsStatusChanged)
       .then(() => setStatusUpdateSuccessSnackbarOpen(true))
@@ -119,7 +126,7 @@ export default function FormDialog({
         }
       });
 
-    console.log(values);
+    // console.log(values);
   };
 
   return (

@@ -58,7 +58,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -81,7 +81,7 @@ export const getServerSideProps = async (ctx) => {
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const Index = () => {
+const Index = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
 
@@ -172,7 +172,7 @@ const Index = () => {
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={4} />
+      <NavBar selectedListItem={4} token={token} />
 
       <div className={classes.content}>
         <div>

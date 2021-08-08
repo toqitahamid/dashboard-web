@@ -3,14 +3,7 @@ import nookies from 'nookies';
 import { firebaseAdmin } from '../../../../firebaseAdmin';
 import NavBar from '../../../components/NavBar';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Breadcrumbs,
-  Button,
-  Grid,
-  Paper,
-  Switch,
-  TextField,
-} from '@material-ui/core';
+import { Breadcrumbs, Button, Grid, Paper } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
@@ -99,7 +92,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -122,7 +115,7 @@ export const getServerSideProps = async (ctx) => {
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const Index = () => {
+const Index = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
 
@@ -164,7 +157,7 @@ const Index = () => {
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={4} />
+      <NavBar selectedListItem={4} token={token} />
 
       <div className={classes.content}>
         <div>

@@ -39,7 +39,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
-      props: {},
+      props: { cookies, token },
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -60,12 +60,12 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const NewRefund = () => {
+const NewRefund = ({ cookies, token }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={4} />
+      <NavBar selectedListItem={8} token={token} />
       <div className={classes.content}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <RefundStepper />

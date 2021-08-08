@@ -27,8 +27,14 @@ const useStyles = makeStyles((theme) => ({
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const ReasonHistory = ({ warrantyId }) => {
+const ReasonHistory = ({ warrantyId, cookies }) => {
   const classes = useStyles();
+
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
+  const fetcher = (url) => fetch(url, config).then((res) => res.json());
 
   const { data, error } = useSWR(
     `http://localhost:20801/warranty/api/v1/warranty/getWarrantyReasonHistory/${warrantyId}`,

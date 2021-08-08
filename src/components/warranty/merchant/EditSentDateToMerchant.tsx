@@ -32,6 +32,7 @@ export default function Index({
   currentSentDateToMerchant,
   warrantyId,
   setIsSentDateToMerchantChanged,
+  cookies,
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -62,6 +63,10 @@ export default function Index({
     setOpen(false);
   };
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   const onSubmit = async (values) => {
     setOpen(false);
     const res = await axios
@@ -69,7 +74,8 @@ export default function Index({
         `http://localhost:20801/warranty/api/v1/warranty/update-sent-date-to-merchant/${warrantyId}`,
         {
           product_sent_date_to_merchant: values.product_sent_date_to_merchant,
-        }
+        },
+        config
       )
       .then(setIsSentDateToMerchantChanged);
     console.log(values);
