@@ -1,6 +1,6 @@
-import * as firebaseAdmin from "firebase-admin";
+import * as firebaseAdmin from 'firebase-admin';
 
-// const privateKey = process.env["PRIVATE_KEY"];
+// const privateKey = process.env['PRIVATE_KEY'];
 // const clientEmail = process.env["CLIENT_EMAIL"];
 // const projectId = process.env["PROJECT_ID"];
 
