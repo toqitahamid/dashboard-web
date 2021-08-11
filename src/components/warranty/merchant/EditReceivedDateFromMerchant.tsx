@@ -4,17 +4,17 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@material-ui/core';
+import { FormControl, Grid } from '@material-ui/core';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/styles';
-import TextField from '@material-ui/core/TextField';
+
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import dayjs from 'dayjs';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -34,26 +34,38 @@ export default function Index({
   setIsReceivedDateFromMerchantChanged,
   cookies,
 }) {
-  const [open, setOpen] = React.useState(false);
-
-  const { handleSubmit, control } = useForm({
-    defaultValues: {
-      product_received_date_from_merchant: '',
-    },
-  });
-
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [selectedDate, setSelectedDate] = React.useState(
+    new Date('2014-08-18T21:11:54')
+  );
 
-  // useEffect(() => {
-  //   const merchants = async () => {
-  //     const response = await axios(
-  //       `http://localhost:20801/warranty/api/v1/warranty`
-  //     );
-  //     setMerchantList(response.data.data);
-  //     console.log(response.data.data);
-  //   };
-  //   merchants();
-  // }, []);
+  const { handleSubmit, control, setValue, register, getValues } = useForm();
+
+  const value = getValues('product_received_date_from_merchant') as Date;
+
+  useEffect(() => {
+    register('product_received_date_from_merchant');
+  }, [register]);
+
+  useEffect(() => {
+    setSelectedDate(value || null);
+  }, [setSelectedDate, value]);
+
+  const handleDateChange = (date) => {
+    console.log(date);
+    date = dayjs(date).format('YYYY-MM-DDTHH:mm:ssZ');
+    console.log(date);
+    setSelectedDate(date);
+    setValue('product_received_date_from_merchant', date, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const formatDate = (date) => {
+    return dayjs(date).format('D MMM, YYYY h:mm A');
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -92,7 +104,7 @@ export default function Index({
       >
         {currentReceivedDateFromMerchant === ''
           ? 'Tap to enter date'
-          : currentReceivedDateFromMerchant}
+          : formatDate(currentReceivedDateFromMerchant)}
       </Button>
       <form>
         <Dialog
@@ -113,19 +125,22 @@ export default function Index({
                     field: { onChange, value },
                     fieldState: { error },
                   }) => (
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      size="small"
-                      placeholder="20/01/2021"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      {/*<Grid container justifyContent="space-around">*/}
+                      <KeyboardDatePicker
+                        // variant="inline"
+                        format="dd/MM/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="Date picker inline"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                      {/*</Grid>*/}
+                    </MuiPickersUtilsProvider>
                   )}
                 />
               </FormControl>

@@ -18,6 +18,12 @@ import axios from 'axios';
 import { Controller, useForm, useFormContext } from 'react-hook-form';
 import { makeStyles } from '@material-ui/styles';
 import { firebaseClient } from '../../../../firebaseClient';
+import dayjs from 'dayjs';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -39,11 +45,34 @@ export default function FormDialog({
 }) {
   const [open, setOpen] = React.useState(false);
 
-  const { handleSubmit, control } = useForm({
-    defaultValues: {
-      product_received_date: '',
-    },
-  });
+  const [selectedDate, setSelectedDate] = React.useState(null);
+
+  const { handleSubmit, control, setValue, register, getValues } = useForm();
+
+  const value = getValues('product_received_date') as Date;
+
+  useEffect(() => {
+    register('product_received_date');
+  }, [register]);
+
+  useEffect(() => {
+    setSelectedDate(value || null);
+  }, [setSelectedDate, value]);
+
+  const handleDateChange = (date) => {
+    console.log(date);
+    date = dayjs(date).format('YYYY-MM-DDTHH:mm:ssZ');
+    console.log(date);
+    setSelectedDate(date);
+    setValue('product_received_date', date, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const formatDate = (date) => {
+    return dayjs(date).format('D MMM, YYYY h:mm A');
+  };
 
   const classes = useStyles();
 
@@ -91,7 +120,7 @@ export default function FormDialog({
         color="primary"
         onClick={handleClickOpen}
       >
-        {currentDate === '' ? 'No Date' : currentDate}
+        {currentDate === '' ? 'No Date' : formatDate(currentDate)}
       </Button>
       <form>
         <Dialog
@@ -113,19 +142,22 @@ export default function FormDialog({
                   field: { onChange, value },
                   fieldState: { error },
                 }) => (
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    size="small"
-                    placeholder="20/01/2021"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                  />
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    {/*<Grid container justifyContent="space-around">*/}
+                    <KeyboardDatePicker
+                      // variant="inline"
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      id="date-picker-inline"
+                      label="Date picker inline"
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                    {/*</Grid>*/}
+                  </MuiPickersUtilsProvider>
                 )}
               />
             </FormControl>
