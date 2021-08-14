@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Drawer, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import Header from './Header';
-import DrawerItems from './DrawerItems';
+import Header from '../header/Header';
+import DrawerItems from '../drawer/DrawerItems';
 
 const drawerWidth = 240;
 

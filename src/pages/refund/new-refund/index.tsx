@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import nookies from 'nookies';
-import { firebaseAdmin } from '../../../firebaseAdmin';
-import NavBar from '../../components/NavBar';
+import { firebaseAdmin } from '../../../../firebaseAdmin';
+import NavBar from '../../../components/navigation/navbar/NavBar';
 import { makeStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import RefundStepper from '../../components/refund/RefundStepper';
+import RefundStepper from '../../../components/refund/stepper/RefundStepper';
 
 const useStyles = makeStyles((theme) => ({
   root: {

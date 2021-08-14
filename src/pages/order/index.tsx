@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../../firebaseAdmin';
-import NavBar from '../../components/NavBar';
+import NavBar from '../../components/navigation/navbar/NavBar';
 import { makeStyles } from '@material-ui/styles';
 import {
   Breadcrumbs,

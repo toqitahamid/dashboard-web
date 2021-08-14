@@ -5,18 +5,9 @@ import {
   AppBar,
   Box,
   Breadcrumbs,
-  Button,
-  Card,
-  CardContent,
   Container,
-  Divider,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   Tab,
-  TableCell,
   Tabs,
 } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -26,14 +17,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import NavBar from '../../../components/navigation/navbar/NavBar';
 import PropTypes from 'prop-types';
-import useSWR from 'swr';
-import OrderInformation from '../../../components/warranty/warranty-details/OrderInformation';
-import WarrantyInformation from '../../../components/warranty/warranty-details/WarrantyInformation';
-import MerchantInformation from '../../../components/warranty/warranty-details/MerchantInformation';
-import StatusHistory from '../../../components/warranty/warranty-details/StatusHistory';
-import ReasonHistory from '../../../components/warranty/warranty-details/ReasonHistory';
-
-const drawerWidth = 240;
+import OrderInformation from '../../../components/refund/refund-details/OrderInformation';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -136,19 +120,19 @@ const Id = ({ cookies, token }) => {
 
   const [value, setValue] = React.useState(0);
 
-  const fetcher = (url) =>
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-    }).then((res) => res.json());
-  const { data, error } = useSWR(
-    `http://localhost:20801/warranty/api/v1/order/getOrderDetails/${id}`,
-    fetcher
-  );
-
-  if (error) return <div>'An error has occurred.'</div>;
-  if (!data) return <div>'Loading...'</div>;
+  // const fetcher = (url) =>
+  //   fetch(url, {
+  //     headers: {
+  //       Authorization: `Bearer ${cookies.token}`,
+  //     },
+  //   }).then((res) => res.json());
+  // const { data, error } = useSWR(
+  //   `http://localhost:20801/refund/api/v1/order/get-order-details/${id}`,
+  //   fetcher
+  // );
+  //
+  // if (error) return <div>'An error has occurred.'</div>;
+  // if (!data) return <div>'Loading...'</div>;
   // console.log(data.data);
 
   const handleChange = (event, newValue) => {
@@ -164,10 +148,10 @@ const Id = ({ cookies, token }) => {
         <Link color="inherit" href="/dashboard">
           Home
         </Link>
-        <Link color="inherit" href="/warranty/warranty-list">
-          Warranty
+        <Link color="inherit" href="/refund/refund-list">
+          Refund
         </Link>
-        <Typography color="textPrimary">Warranty Details</Typography>
+        <Typography color="textPrimary">Refund Details</Typography>
       </Breadcrumbs>
     );
   };
@@ -175,14 +159,14 @@ const Id = ({ cookies, token }) => {
   // @ts-ignore
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={4} token={token} />
+      <NavBar selectedListItem={9} token={token} />
 
       <div className={classes.content}>
         <div className={classes.breadcrumb}>
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="h5" gutterBottom>
-                Warranty List
+                Refund
               </Typography>
             </Grid>
           </Grid>
@@ -203,32 +187,32 @@ const Id = ({ cookies, token }) => {
             centered
           >
             <Tab label="Order" {...a11yProps(0)} />
-            <Tab label="Warranty" {...a11yProps(1)} />
-            <Tab label="Merchant" {...a11yProps(2)} />
-            <Tab label="Status History" {...a11yProps(3)} />
-            <Tab label="Reason History" {...a11yProps(4)} />
+            {/*<Tab label="Warranty" {...a11yProps(1)} />*/}
+            {/*<Tab label="Merchant" {...a11yProps(2)} />*/}
+            {/*<Tab label="Status History" {...a11yProps(3)} />*/}
+            {/*<Tab label="Reason History" {...a11yProps(4)} />*/}
           </Tabs>
         </AppBar>
 
         <TabPanel value={value} index={0}>
-          <OrderInformation data={data} />
+          <OrderInformation refundId={id} cookies={cookies} />
         </TabPanel>
 
-        <TabPanel value={value} index={1}>
-          <WarrantyInformation warrantyId={id} cookies={cookies} />
-        </TabPanel>
+        {/*<TabPanel value={value} index={1}>*/}
+        {/*  <WarrantyInformation warrantyId={id} cookies={cookies} />*/}
+        {/*</TabPanel>*/}
 
-        <TabPanel value={value} index={2}>
-          <MerchantInformation warrantyId={id} cookies={cookies} />
-        </TabPanel>
+        {/*<TabPanel value={value} index={2}>*/}
+        {/*  <MerchantInformation warrantyId={id} cookies={cookies} />*/}
+        {/*</TabPanel>*/}
 
-        <TabPanel index={3} value={value}>
-          <StatusHistory warrantyId={id} cookies={cookies} />
-        </TabPanel>
+        {/*<TabPanel index={3} value={value}>*/}
+        {/*  <StatusHistory warrantyId={id} cookies={cookies} />*/}
+        {/*</TabPanel>*/}
 
-        <TabPanel index={4} value={value}>
-          <ReasonHistory warrantyId={id} cookies={cookies} />
-        </TabPanel>
+        {/*<TabPanel index={4} value={value}>*/}
+        {/*  <ReasonHistory warrantyId={id} cookies={cookies} />*/}
+        {/*</TabPanel>*/}
       </div>
     </div>
   );

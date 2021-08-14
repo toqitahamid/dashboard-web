@@ -54,17 +54,22 @@ const useStyles = makeStyles((theme) => ({
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const WarrantyForm = () => {
+const WarrantyForm = ({ cookies }) => {
   const classes = useStyles();
   const { control } = useFormContext();
   const [warrantyTypeList, setWarrantyTypeList] = useState([]);
   const [statusList, setStatusList] = useState([]);
   const [merchantNameList, setMerchantNameList] = useState([]);
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   useEffect(() => {
     const warrantyTypes = async () => {
       const response = await axios(
-        'http://localhost:20801/warranty/api/v1/warranty-type'
+        'http://localhost:20801/warranty/api/v1/warranty-type',
+        config
       );
       setWarrantyTypeList(response.data.data);
     };
@@ -74,9 +79,11 @@ const WarrantyForm = () => {
   useEffect(() => {
     const statuses = async () => {
       const response = await axios(
-        'http://localhost:20801/warranty/api/v1/status'
+        'http://localhost:20801/warranty/api/v1/status',
+        config
       );
       setStatusList(response.data.data);
+      console.log(response.data.data);
     };
     statuses();
   }, []);
@@ -84,7 +91,8 @@ const WarrantyForm = () => {
   useEffect(() => {
     const merchants = async () => {
       const response = await axios(
-        'http://localhost:20801/warranty/api/v1/merchant'
+        'http://localhost:20801/warranty/api/v1/merchant',
+        config
       );
       setMerchantNameList(response.data.data);
     };

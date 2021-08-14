@@ -35,6 +35,7 @@ export default function FormDialog({
   currentReason,
   warrantyId,
   setIsReasonChanged,
+  cookies,
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -64,6 +65,10 @@ export default function FormDialog({
     setOpen(false);
   };
 
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
   const onSubmit = async (values) => {
     setOpen(false);
     const res = await axios
@@ -71,7 +76,8 @@ export default function FormDialog({
         `http://localhost:20801/warranty/api/v1/warranty/updateWarrantyReason/${warrantyId}`,
         {
           reason: values.warranty_reason,
-        }
+        },
+        config
       )
       .then(setIsReasonChanged);
     console.log(values);
@@ -94,7 +100,7 @@ export default function FormDialog({
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">
-            Add Product Received Date
+            Update warranty reason
           </DialogTitle>
           <DialogContent>
             {/*<Grid item xs={12}>*/}

@@ -9,9 +9,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import dayjs from 'dayjs';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,9 +44,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OrderInformation = ({ data }) => {
+const OrderInformation = ({ refundId, cookies }) => {
   const classes = useStyles();
-  console.log(data);
+  const [orderDetails, setOrderDetails] = useState([]);
+
+  const config = {
+    headers: { Authorization: `Bearer ${cookies.token}` },
+  };
+
+  useEffect(() => {
+    const orders = async () => {
+      const response = await axios(
+        `http://localhost:20802/refund/api/v1/order/get-order-details/${refundId}`
+      );
+      setOrderDetails(response.data.data);
+      console.log(response.data.data);
+    };
+    orders();
+  }, []);
 
   const formatDate = (date) => {
     return dayjs(date).format('D MMM, YYYY h:mm A');
@@ -58,19 +74,19 @@ const OrderInformation = ({ data }) => {
           <TableBody>
             <TableRow>
               <TableCell component="th" scope="row">
-                RMA ID
+                Refund ID
               </TableCell>
               <TableCell component="th" scope="row">
-                {data.data.rma_id}
+                {orderDetails.refund_id}
               </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell component="th" scope="row">
-                RMA Create Date
+                Refund Request Date
               </TableCell>
               <TableCell component="th" scope="row">
-                {formatDate(data.data.rma_creation_date)}
+                {formatDate(orderDetails.refund_request_date)}
               </TableCell>
             </TableRow>
 
@@ -79,25 +95,7 @@ const OrderInformation = ({ data }) => {
                 Order ID
               </TableCell>
               <TableCell component="th" scope="row">
-                {data.data.order_id}
-              </TableCell>
-            </TableRow>
-
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Product Name
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {data.data.product_name}
-              </TableCell>
-            </TableRow>
-
-            <TableRow>
-              <TableCell component="th" scope="row">
-                SKU
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {data.data.product_sku}
+                {orderDetails.woo_order_id}
               </TableCell>
             </TableRow>
 
@@ -106,7 +104,7 @@ const OrderInformation = ({ data }) => {
                 Customer Name
               </TableCell>
               <TableCell component="th" scope="row">
-                {data.data.customer_name}
+                {orderDetails.customer_name}
               </TableCell>
             </TableRow>
 
@@ -115,7 +113,7 @@ const OrderInformation = ({ data }) => {
                 Customer Phone
               </TableCell>
               <TableCell component="th" scope="row">
-                {data.data.customer_phone}
+                {orderDetails.customer_phone}
               </TableCell>
             </TableRow>
           </TableBody>

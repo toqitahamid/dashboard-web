@@ -16,11 +16,12 @@ import { useRouter } from 'next/router';
 
 import useSWR from 'swr';
 import { firebaseAdmin } from '../../../../firebaseAdmin';
-import NavBar from '../../../components/NavBar';
+import NavBar from '../../../components/navigation/navbar/NavBar';
 import StatusTable from '../../../components/warranty/status/StatusTable';
 import NewStatus from '../../../components/warranty/status/NewStatus';
 import NewMerchant from '../../../components/warranty/merchant/NewMerchant';
 import MerchantTable from '../../../components/warranty/merchant/MerchantTable';
+import NewMerchantTable from '../../../components/warranty/merchant/NewMerchantTable';
 
 const drawerWidth = 240;
 // @ts-ignore
@@ -95,22 +96,6 @@ const Index = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
 
-  const config = {
-    headers: { Authorization: `Bearer ${cookies.token}` },
-  };
-
-  const fetcher = (url) => fetch(url, config).then((res) => res.json());
-
-  const { data, error } = useSWR(
-    'http://localhost:20801/warranty/api/v1/merchant',
-    fetcher
-  );
-
-  if (error) return <div>An error has occurred</div>;
-  if (!data) return <div>Loading...</div>;
-
-  // console.log(data);
-
   const Breadcrumb = () => {
     return (
       <Breadcrumbs
@@ -125,18 +110,6 @@ const Index = ({ cookies, token }) => {
       </Breadcrumbs>
     );
   };
-
-  // const NewWarranty = () => {
-  //   return (
-  //     <Button
-  //       variant="contained"
-  //       color="primary"
-  //       onClick={() => router.push('warranty/new-warranty')}
-  //     >
-  //       + New Warranty
-  //     </Button>
-  //   );
-  // };
 
   return (
     <div className={classes.root}>
@@ -173,40 +146,12 @@ const Index = ({ cookies, token }) => {
         </div>
 
         <div className={classes.table}>
-          <Paper variant="outlined">
-            <Grid
-              container
-              spacing={2}
-              direction="row"
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <div className={classes.warrantySearch}>
-                <Grid item>
-                  <TextField
-                    id="outlined-basic"
-                    label="Outlined"
-                    variant="outlined"
-                  />
-                </Grid>
-              </div>
-
-              <Grid item>
-                <Switch inputProps={{ 'aria-label': 'primary checkbox' }} />
-              </Grid>
-              <Grid item className={classes.status}>
-                <Typography variant="body1" gutterBottom>
-                  Refunded
-                </Typography>
-              </Grid>
+          <Grid container spacing={2}>
+            <Grid item lg={12}>
+              {/*<MerchantTable data={data.data} />*/}
+              <NewMerchantTable cookies={cookies} token={token} />
             </Grid>
-
-            <Grid container spacing={2}>
-              <Grid item lg={12}>
-                <MerchantTable data={data.data} />
-              </Grid>
-            </Grid>
-          </Paper>
+          </Grid>
         </div>
       </div>
     </div>

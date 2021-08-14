@@ -17,9 +17,8 @@ import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { firebaseAdmin } from '../../../../firebaseAdmin';
 import NavBar from '../../../components/navigation/navbar/NavBar';
-import NewWarrantyType from '../../../components/warranty/warranty-type/NewWarrantyType';
-import WarrantyTypeTable from '../../../components/warranty/warranty-type/WarrantyTypeTable';
-import NewWarrantyTypeTable from '../../../components/warranty/warranty-type/NewWarrantyTypeTable';
+import NewStatus from '../../../components/refund/refund-status/NewStatus';
+import NewStatusTable from '../../../components/refund/refund-status/NewStatusTable';
 
 const drawerWidth = 240;
 // @ts-ignore
@@ -90,11 +89,9 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const WarrantyType = ({ cookies, token }) => {
+const Status = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
-
-  // console.log(data);
 
   const Breadcrumb = () => {
     return (
@@ -105,22 +102,34 @@ const WarrantyType = ({ cookies, token }) => {
         <Link color="inherit" href="/dashboard">
           Home
         </Link>
-        <Typography color="textPrimary">Warranty</Typography>
-        <Typography color="textPrimary">Warranty Type</Typography>
+        <Typography color="textPrimary">Refund</Typography>
+        <Typography color="textPrimary">Status</Typography>
       </Breadcrumbs>
     );
   };
 
+  // const NewWarranty = () => {
+  //   return (
+  //     <Button
+  //       variant="contained"
+  //       color="primary"
+  //       onClick={() => router.push('warranty/new-warranty')}
+  //     >
+  //       + New Warranty
+  //     </Button>
+  //   );
+  // };
+
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={6} token={token} />
+      <NavBar selectedListItem={10} token={token} />
 
       <div className={classes.content}>
         <div>
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="h5" gutterBottom>
-                Warranty Type
+                Status List
               </Typography>
             </Grid>
           </Grid>
@@ -140,7 +149,7 @@ const WarrantyType = ({ cookies, token }) => {
             className={classes.newWarranty}
           >
             <Grid item>
-              <NewWarrantyType cookies={cookies} />
+              <NewStatus cookies={cookies} />
             </Grid>
           </Grid>
         </div>
@@ -149,8 +158,8 @@ const WarrantyType = ({ cookies, token }) => {
           <Paper variant="outlined">
             <Grid container spacing={2}>
               <Grid item lg={12}>
-                {/*<WarrantyTypeTable data={data.data} />*/}
-                <NewWarrantyTypeTable cookies={cookies} token={token} />
+                {/*<StatusTable data={data.data} />*/}
+                <NewStatusTable cookies={cookies} token={token} />
               </Grid>
             </Grid>
           </Paper>
@@ -159,4 +168,4 @@ const WarrantyType = ({ cookies, token }) => {
     </div>
   );
 };
-export default WarrantyType;
+export default Status;

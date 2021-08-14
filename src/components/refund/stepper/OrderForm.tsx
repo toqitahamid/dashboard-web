@@ -3,9 +3,33 @@ import { Box, Grid, Paper, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { DatePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { makeStyles } from '@material-ui/styles';
+import dayjs from 'dayjs';
 
 const OrderForm = () => {
-  const { control } = useFormContext();
+  const { control, setValue, getValues, register } = useFormContext();
+
+  const [selectedDate, setSelectedDate] = React.useState(null);
+
+  const value = getValues('refund_request_date') as Date;
+
+  useEffect(() => {
+    register('refund_request_date');
+  }, [register]);
+
+  useEffect(() => {
+    setSelectedDate(value || null);
+  }, [setSelectedDate, value]);
+
+  const handleDateChange = (date) => {
+    date = dayjs(date).format('YYYY-MM-DDTHH:mm:ssZ');
+
+    setSelectedDate(date);
+    setValue('refund_request_date', date, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
   return (
     <>
@@ -13,7 +37,7 @@ const OrderForm = () => {
         <Grid item xs={12}>
           <Controller
             control={control}
-            name="orderID"
+            name="woo_order_id"
             render={({ field }) => (
               <TextField
                 id="order-id"
@@ -31,16 +55,20 @@ const OrderForm = () => {
         <Grid item xs={12}>
           <Controller
             control={control}
-            name="orderDate"
+            name="refund_request_date"
             render={({ field }) => (
               <KeyboardDatePicker
-                placeholder="10/10/2020"
-                disableFuture
+                // variant="inline"
                 format="dd/MM/yyyy"
-                label="Order Date"
-                // views={['year', 'month', 'date']}
-                onChange={(date) => field.onChange(date)}
-                value={field.value}
+                margin="normal"
+                id="date-picker-inline"
+                label="RMA Create Date"
+                fullWidth
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
               />
             )}
           />
@@ -48,23 +76,7 @@ const OrderForm = () => {
 
         <Controller
           control={control}
-          name="sku"
-          render={({ field }) => (
-            <TextField
-              id="sku"
-              label="SKU"
-              variant="standard"
-              placeholder="PNGN-1223"
-              fullWidth
-              margin="normal"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="customerName"
+          name="customer_name"
           render={({ field }) => (
             <TextField
               id="customer-name"
@@ -80,27 +92,11 @@ const OrderForm = () => {
 
         <Controller
           control={control}
-          name="phoneNo"
+          name="phone_no"
           render={({ field }) => (
             <TextField
               id="phone-no"
               label="Phone No"
-              variant="standard"
-              placeholder="01610000000"
-              fullWidth
-              margin="normal"
-              {...field}
-            />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="bkashPhoneNo"
-          render={({ field }) => (
-            <TextField
-              id="bkash-phone-number"
-              label="bKash Phone Number"
               variant="standard"
               placeholder="01610000000"
               fullWidth

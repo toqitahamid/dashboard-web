@@ -8,8 +8,9 @@ import {
   Select,
   TextField,
 } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -23,36 +24,65 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const paymentGatewayList = [
-  { value: 0, text: 'SSLCommerz' },
-  { value: 1, text: 'bKash' },
-  { value: 2, text: 'Send Money' },
-];
-
-const refundTypeList = [
-  { value: 0, text: 'Full' },
-  { value: 1, text: 'Partial' },
-  { value: 2, text: 'Full w/o bKash cashback' },
-  { value: 3, text: 'Partial w/o bKash cashback' },
-];
-
-const statusList = [
-  { value: 0, text: 'New Request' },
-  { value: 1, text: 'Refunded' },
-  { value: 2, text: 'Not Refunded' },
-  { value: 3, text: 'Check Again' },
-];
+// const paymentGatewayList = [
+//   { value: 0, text: 'SSLCommerz' },
+//   { value: 1, text: 'bKash' },
+//   { value: 2, text: 'Send Money' },
+// ];
+//
+// const statusList = [
+//   { value: 0, text: 'New Request' },
+//   { value: 1, text: 'Refunded' },
+//   { value: 2, text: 'Not Refunded' },
+//   { value: 3, text: 'Check Again' },
+// ];
 
 const RefundForm = () => {
   const classes = useStyles();
+  const [paymentGatewayList, setPaymentGatewayList] = useState([]);
+  const [refundStatusList, setRefundStatusList] = useState([]);
+  const [refundTypeList, setRefundTypeList] = useState([]);
+
   const { control } = useFormContext();
+
+  useEffect(() => {
+    const paymentGateway = async () => {
+      const response = await axios(
+        'http://localhost:20802/refund/api/v1/payment-gateway'
+      );
+      setPaymentGatewayList(response.data.data);
+      console.log(response.data.data);
+    };
+    paymentGateway();
+  }, []);
+
+  useEffect(() => {
+    const refundStatus = async () => {
+      const response = await axios(
+        'http://localhost:20802/refund/api/v1/refund-status'
+      );
+      setRefundStatusList(response.data.data);
+    };
+    refundStatus();
+  }, []);
+
+  useEffect(() => {
+    const refundTypes = async () => {
+      const response = await axios(
+        'http://localhost:20802/refund/api/v1/refund-type'
+      );
+      setRefundTypeList(response.data.data);
+    };
+    refundTypes();
+  }, []);
+
   return (
     <>
       <Grid container>
         <Grid item xs={12} className={classes.formControl}>
           <Controller
             control={control}
-            name="refundAmount"
+            name="refund_amount"
             render={({ field }) => (
               <TextField
                 id="refund-amount"
@@ -74,7 +104,7 @@ const RefundForm = () => {
             </InputLabel>
             <Controller
               control={control}
-              name="paymentGateway"
+              name="gateway_name"
               render={({ field }) => (
                 <Select
                   labelId="payment-gateway"
@@ -83,8 +113,8 @@ const RefundForm = () => {
                   onChange={(data) => field.onChange(data)}
                 >
                   {paymentGatewayList.map((data) => (
-                    <MenuItem key={data.value} value={data.value}>
-                      {data.text}
+                    <MenuItem key={data.ID} value={data.gateway_name}>
+                      {data.gateway_name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -97,7 +127,7 @@ const RefundForm = () => {
           <InputLabel id="refund-type">Select a Refund Type</InputLabel>
           <Controller
             control={control}
-            name="refundType"
+            name="refund_type"
             render={({ field }) => (
               <Select
                 labelId="refund-type"
@@ -106,8 +136,8 @@ const RefundForm = () => {
                 onChange={(data) => field.onChange(data)}
               >
                 {refundTypeList.map((data) => (
-                  <MenuItem key={data.value} value={data.value}>
-                    {data.text}
+                  <MenuItem key={data.ID} value={data.type}>
+                    {data.type}
                   </MenuItem>
                 ))}
               </Select>
@@ -117,20 +147,20 @@ const RefundForm = () => {
 
         <Grid item xs={12}>
           <FormControl className={classes.formControl}>
-            <InputLabel id="status">Select a Refund Status</InputLabel>
+            <InputLabel id="refund-status">Select a Refund Status</InputLabel>
             <Controller
               control={control}
-              name="status"
+              name="refund_status"
               render={({ field }) => (
                 <Select
-                  labelId="status"
-                  id="status"
+                  labelId="refund-status"
+                  id="refund-status"
                   value={field.value}
                   onChange={(data) => field.onChange(data)}
                 >
-                  {statusList.map((data) => (
-                    <MenuItem key={data.value} value={data.value}>
-                      {data.text}
+                  {refundStatusList.map((data) => (
+                    <MenuItem key={data.ID} value={data.status}>
+                      {data.status}
                     </MenuItem>
                   ))}
                 </Select>

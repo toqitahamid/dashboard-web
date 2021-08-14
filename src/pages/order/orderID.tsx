@@ -23,7 +23,7 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import NavBar from '../../components/NavBar';
+import NavBar from '../../components/navigation/navbar/NavBar';
 import PropTypes from 'prop-types';
 import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
@@ -131,7 +131,7 @@ function a11yProps(index) {
   };
 }
 
-const WarrantyID = () => {
+const WarrantyID = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
 

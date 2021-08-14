@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import nookies from 'nookies';
+import { firebaseAdmin } from '../../../../firebaseAdmin';
+import NavBar from '../../../components/navigation/navbar/NavBar';
 import { makeStyles } from '@material-ui/styles';
 import {
   Breadcrumbs,
   Button,
+  Chip,
   Grid,
+  IconButton,
   Paper,
   Switch,
   TextField,
@@ -15,11 +19,10 @@ import Link from '@material-ui/core/Link';
 import { useRouter } from 'next/router';
 
 import useSWR from 'swr';
-import { firebaseAdmin } from '../../../../firebaseAdmin';
-import NavBar from '../../../components/navigation/navbar/NavBar';
-import NewWarrantyType from '../../../components/warranty/warranty-type/NewWarrantyType';
-import WarrantyTypeTable from '../../../components/warranty/warranty-type/WarrantyTypeTable';
-import NewWarrantyTypeTable from '../../../components/warranty/warranty-type/NewWarrantyTypeTable';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import dayjs from 'dayjs';
+import { Skeleton } from '@material-ui/lab';
+import RefundListTable from '../../../components/refund/refund-list/RefundListTable';
 
 const drawerWidth = 240;
 // @ts-ignore
@@ -58,15 +61,6 @@ export const getServerSideProps = async (ctx) => {
     // the user is authenticated!
     // FETCH STUFF HERE
 
-    // const res = await fetch(`http://localhost:20801/warranty/api/v1/status`);
-    // const data = await res.json();
-    //
-    // if (!data) {
-    //   return {
-    //     notFound: true,
-    //   };
-    // }
-
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
       props: { cookies, token },
@@ -90,11 +84,9 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const WarrantyType = ({ cookies, token }) => {
+const Index = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
-
-  // console.log(data);
 
   const Breadcrumb = () => {
     return (
@@ -106,21 +98,32 @@ const WarrantyType = ({ cookies, token }) => {
           Home
         </Link>
         <Typography color="textPrimary">Warranty</Typography>
-        <Typography color="textPrimary">Warranty Type</Typography>
       </Breadcrumbs>
+    );
+  };
+
+  const NewRefund = () => {
+    return (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => router.push('/refund/new-refund')}
+      >
+        + New Refund
+      </Button>
     );
   };
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={6} token={token} />
+      <NavBar selectedListItem={9} token={token} />
 
       <div className={classes.content}>
         <div>
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="h5" gutterBottom>
-                Warranty Type
+                Refund
               </Typography>
             </Grid>
           </Grid>
@@ -140,23 +143,14 @@ const WarrantyType = ({ cookies, token }) => {
             className={classes.newWarranty}
           >
             <Grid item>
-              <NewWarrantyType cookies={cookies} />
+              <NewRefund />
             </Grid>
           </Grid>
-        </div>
 
-        <div className={classes.table}>
-          <Paper variant="outlined">
-            <Grid container spacing={2}>
-              <Grid item lg={12}>
-                {/*<WarrantyTypeTable data={data.data} />*/}
-                <NewWarrantyTypeTable cookies={cookies} token={token} />
-              </Grid>
-            </Grid>
-          </Paper>
+          <RefundListTable cookies={cookies} />
         </div>
       </div>
     </div>
   );
 };
-export default WarrantyType;
+export default Index;

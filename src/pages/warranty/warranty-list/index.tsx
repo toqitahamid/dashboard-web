@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../../../firebaseAdmin';
-import NavBar from '../../../components/NavBar';
+import NavBar from '../../../components/navigation/navbar/NavBar';
 import { makeStyles } from '@material-ui/styles';
 import {
   Breadcrumbs,
   Button,
+  Chip,
   Grid,
+  IconButton,
   Paper,
   Switch,
   TextField,
@@ -15,8 +17,11 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { useRouter } from 'next/router';
+
+import MUIDataTable from 'mui-datatables';
 import useSWR from 'swr';
-import WarrantyTable from '../../../components/warranty/WarrantyTable';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import dayjs from 'dayjs';
 
 const drawerWidth = 240;
 // @ts-ignore
@@ -48,9 +53,9 @@ const useStyles = makeStyles((theme) => ({
 export const getServerSideProps = async (ctx) => {
   try {
     const cookies = nookies.get(ctx);
-    // console.log(JSON.stringify(cookies, null, 2));
+    console.log(JSON.stringify(cookies, null, 2));
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
-    const { uid, email, admin } = token;
+    const { uid, email } = token;
 
     // the user is authenticated!
     // FETCH STUFF HERE
@@ -78,16 +83,13 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const WarrantyList = ({ cookies, token }) => {
-  console.log(cookies.token);
+const Index = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
-  // console.log(`Claim: ${claim}`);
 
   const config = {
     headers: { Authorization: `Bearer ${cookies.token}` },
   };
-
   const fetcher = (url) => fetch(url, config).then((res) => res.json());
 
   const { data, error } = useSWR(
@@ -96,9 +98,81 @@ const WarrantyList = ({ cookies, token }) => {
   );
 
   if (error) return <div>An error has occurred</div>;
-  if (!data) return 'Loading...';
+  if (!data) return <div>Loading...</div>;
 
-  // console.log(data);
+  console.log(data);
+
+  const formatDate = (date) => {
+    return dayjs(date).format('D MMM, YYYY h:mm A');
+  };
+
+  const columns = [
+    {
+      name: 'rma_id',
+      label: 'RMA ID',
+      options: {
+        filter: false,
+        sort: true,
+      },
+    },
+    {
+      name: 'order_id',
+      label: 'Order ID',
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: 'customer_name',
+      label: 'Customer Name',
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: 'status',
+      label: 'Status',
+      options: {
+        filter: true,
+        sort: false,
+        customBodyRender: (value, tableMeta, updateValue) => (
+          <Chip variant="outlined" size="small" label={value} />
+        ),
+      },
+    },
+    {
+      name: 'rma_creation_date',
+      label: 'RMA Creation Date',
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta, updateValue) => formatDate(value),
+      },
+    },
+    {
+      name: 'warranty_id',
+      label: 'Action',
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta, updateValue) => (
+          <IconButton
+            aria-label="arrow"
+            onClick={() => router.push(`/warranty/warranty-details/${value}`)}
+          >
+            <ArrowForwardIcon />
+          </IconButton>
+        ),
+      },
+    },
+  ];
+
+  const options = {
+    filterType: 'dropdown',
+    responsive: 'standard',
+  };
 
   const Breadcrumb = () => {
     return (
@@ -160,45 +234,9 @@ const WarrantyList = ({ cookies, token }) => {
           </Grid>
         </div>
 
-        <div className={classes.table}>
-          <Paper variant="outlined">
-            {/*<Grid*/}
-            {/*  container*/}
-            {/*  spacing={2}*/}
-            {/*  direction="row"*/}
-            {/*  justifyContent="flex-start"*/}
-            {/*  alignItems="center"*/}
-            {/*>*/}
-            {/*  <div className={classes.warrantySearch}>*/}
-            {/*    <Grid item>*/}
-            {/*      <TextField*/}
-            {/*        id="outlined-basic"*/}
-            {/*        label="Outlined"*/}
-            {/*        variant="outlined"*/}
-            {/*      />*/}
-            {/*    </Grid>*/}
-            {/*  </div>*/}
-
-            {/*  <Grid item>*/}
-            {/*    <Switch inputProps={{ 'aria-label': 'primary checkbox' }} />*/}
-            {/*  </Grid>*/}
-            {/*  <Grid item className={classes.status}>*/}
-            {/*    <Typography variant="body1" gutterBottom>*/}
-            {/*      Refunded*/}
-            {/*    </Typography>*/}
-            {/*  </Grid>*/}
-            {/*</Grid>*/}
-
-            <Grid container spacing={2}>
-              <Grid item lg={12}>
-                <WarrantyTable data={data.data} />
-                {/*<NewTable />*/}
-              </Grid>
-            </Grid>
-          </Paper>
-        </div>
+        <MUIDataTable data={data.data} columns={columns} options={options} />
       </div>
     </div>
   );
 };
-export default WarrantyList;
+export default Index;

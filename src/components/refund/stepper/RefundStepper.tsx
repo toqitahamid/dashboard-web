@@ -5,15 +5,25 @@ import {
   Stepper,
   Step,
   StepLabel,
+  Paper,
+  Grid,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm, FormProvider } from 'react-hook-form';
-import OrderForm from './stepper/OrderForm';
-import RefundForm from './stepper/RefundForm';
+import OrderForm from './OrderForm';
+import RefundForm from './RefundForm';
+import axios from 'axios';
+import { GradeRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   button: {
+    marginTop: 16,
     marginRight: theme.spacing(1),
+  },
+  paper: {
+    padding: 16,
+    // height: 400,
+    // width: 800,
   },
 }));
 
@@ -37,15 +47,14 @@ const RefundStepper = () => {
   const classes = useStyles();
   const methods = useForm({
     defaultValues: {
-      orderID: '',
-      orderDate: new Date(),
-      sku: '',
-      customerName: '',
-      phoneNo: '',
-      status: '',
-      refundType: '',
-      refundAmount: '',
-      paymentGateway: '',
+      woo_order_id: '',
+      refund_request_date: '',
+      customer_name: '',
+      phone_no: '',
+      refund_status: '',
+      refund_type: '',
+      refund_amount: '',
+      gateway_name: '',
     },
   });
   const [activeStep, setActiveStep] = useState(0);
@@ -63,12 +72,24 @@ const RefundStepper = () => {
   const handleNext = (data) => {
     console.log(data);
     if (activeStep == steps.length - 1) {
-      fetch('https://jsonplaceholder.typicode.com/comments')
-        .then((data) => data.json())
-        .then((res) => {
-          console.log(res);
-          setActiveStep(activeStep + 1);
+      axios
+        .post('http://localhost:20802/refund/api/v1/refund/create', {
+          woo_order_id: data.woo_order_id,
+          refund_request_date: data.refund_request_date,
+          customer_name: data.customer_name,
+          phone_no: data.phone_no,
+          refund_status: data.refund_status,
+          refund_type: data.refund_type,
+          refund_amount: data.refund_amount,
+          gateway_name: data.gateway_name,
+        })
+        .then((response) => {
+          console.log(response.data.error);
+        })
+        .catch((error) => {
+          console.log(error);
         });
+      setActiveStep(activeStep + 1);
     } else {
       setActiveStep(activeStep + 1);
       setSkippedSteps(
@@ -126,39 +147,40 @@ const RefundStepper = () => {
       ) : (
         <>
           <FormProvider {...methods}>
-            <form
-              autoComplete="none"
-              onSubmit={methods.handleSubmit(handleNext)}
-            >
-              {getStepContent(activeStep)}
+            <Paper className={classes.paper}>
+              <form
+                autoComplete="none"
+                onSubmit={methods.handleSubmit(handleNext)}
+              >
+                {getStepContent(activeStep)}
 
-              <Button
-                className={classes.button}
-                disabled={activeStep === 0}
-                onClick={handleBack}
-              >
-                back
-              </Button>
-              {/*{isStepOptional(activeStep) && (*/}
-              {/*  <Button*/}
-              {/*    className={classes.button}*/}
-              {/*    variant="contained"*/}
-              {/*    color="primary"*/}
-              {/*    onClick={handleSkip}*/}
-              {/*  >*/}
-              {/*    skip*/}
-              {/*  </Button>*/}
-              {/*)}*/}
-              <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                // onClick={handleNext}
-                type="submit"
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </form>
+                <Grid container justifyContent="center" spacing={8}>
+                  <Grid item>
+                    <Button
+                      className={classes.button}
+                      disabled={activeStep === 0}
+                      variant="contained"
+                      color="primary"
+                      onClick={handleBack}
+                    >
+                      back
+                    </Button>
+                  </Grid>
+
+                  <Grid item>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                      // onClick={handleNext}
+                      type="submit"
+                    >
+                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </Paper>
           </FormProvider>
         </>
       )}

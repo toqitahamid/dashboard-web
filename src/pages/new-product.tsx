@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/navigation/navbar/NavBar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Controller, useForm } from 'react-hook-form';

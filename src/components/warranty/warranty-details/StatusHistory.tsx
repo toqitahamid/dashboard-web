@@ -8,6 +8,7 @@ import React from 'react';
 import useSWR from 'swr';
 import MUIDataTable from 'mui-datatables';
 import dayjs from 'dayjs';
+import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,7 +72,7 @@ const StatusHistory = ({ warrantyId, cookies }) => {
   };
 
   return (
-    <>
+    <Paper>
       <div className={classes.root}>
         {/*<MUIDataTable*/}
         {/*  title={'Status History'}*/}
@@ -115,7 +116,7 @@ const StatusHistory = ({ warrantyId, cookies }) => {
         {/*  </Step>*/}
         {/*</Stepper>*/}
       </div>
-    </>
+    </Paper>
   );
 };
 

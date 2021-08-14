@@ -2,18 +2,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, Grid, IconButton, TableCell } from '@material-ui/core';
+import { Paper, TableCell } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import EditWarranty from './EditWarranty';
-import { AddShoppingCart } from '@material-ui/icons';
-import EditIcon from '@material-ui/icons/Edit';
 import EditStatus from './EditStatus';
-
-import EditProductReceivedDate from './EditProductReceivedDate';
 import EditWarrantyReason from './EditWarrantyReason';
+import EditProductReceivedDate from './EditProductReceivedDate';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,7 +77,7 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
   }, [isStatusChanged, isDateChanged, isReasonChanged]);
 
   return (
-    <>
+    <Paper>
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <TableBody>
@@ -95,6 +90,7 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
                   currentReason={warrantyDetails.warranty_reason}
                   warrantyId={warrantyId}
                   setIsReasonChanged={setIsReasonChanged}
+                  cookies={cookies}
                 />
                 {/*{warrantyDetails.warranty_reason}*/}
               </TableCell>
@@ -126,7 +122,7 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
 
             <TableRow>
               <TableCell component="th" scope="row">
-                Product received Date
+                Product Received Date
               </TableCell>
 
               <TableCell component="th" scope="row">
@@ -141,7 +137,7 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Paper>
   );
 };
 

@@ -116,11 +116,11 @@ export default function Index({
                       defaultValue={currentMerchantDecision}
                       onChange={(data) => field.onChange(data)}
                     >
-                      <MenuItem value={'New Product Issued'}>
-                        New Product Issued
+                      <MenuItem value={'Product Repaired'}>
+                        Product Repaired
                       </MenuItem>
-                      <MenuItem value={'Old Product Returned'}>
-                        Old Product Returned
+                      <MenuItem value={'Product Replacement'}>
+                        Product Replacement
                       </MenuItem>
                     </Select>
                   )}

@@ -1,23 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import nookies from 'nookies';
-import { firebaseAdmin } from '../../../firebaseAdmin';
-import NavBar from '../../components/NavBar';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Breadcrumbs,
-  Button,
-  Grid,
-  Paper,
-  Switch,
-  TextField,
-} from '@material-ui/core';
+import { Breadcrumbs, Grid, Paper } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { useRouter } from 'next/router';
+import { firebaseAdmin } from '../../../../firebaseAdmin';
+import NavBar from '../../../components/navigation/navbar/NavBar';
+import NewRefundType from '../../../components/refund/refund-type/NewRefundType';
+import RefundTypeTable from '../../../components/refund/refund-type/RefundTypeTable';
 
-const drawerWidth = 240;
-// @ts-ignore
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -27,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     paddingTop: 100,
   },
-  newRefund: {
+  newWarranty: {
     paddingTop: 20,
     paddingBottom: 20,
   },
@@ -53,6 +46,15 @@ export const getServerSideProps = async (ctx) => {
     // the user is authenticated!
     // FETCH STUFF HERE
 
+    // const res = await fetch(`http://localhost:20801/warranty/api/v1/status`);
+    // const data = await res.json();
+    //
+    // if (!data) {
+    //   return {
+    //     notFound: true,
+    //   };
+    // }
+
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
       props: { cookies, token },
@@ -76,7 +78,7 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const Refund = ({ cookies, token }) => {
+const RefundType = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
 
@@ -89,33 +91,22 @@ const Refund = ({ cookies, token }) => {
         <Link color="inherit" href="/dashboard">
           Home
         </Link>
-        <Typography color="textPrimary">Warranty</Typography>
+        <Typography color="textPrimary">Refund</Typography>
+        <Typography color="textPrimary">Refund Type</Typography>
       </Breadcrumbs>
-    );
-  };
-
-  const NewRefund = () => {
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => router.push('refund/new-refund')}
-      >
-        + New Refund
-      </Button>
     );
   };
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={8} token={token} />
+      <NavBar selectedListItem={12} token={token} />
 
       <div className={classes.content}>
         <div>
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="h5" gutterBottom>
-                Refund List
+                Refund Type
               </Typography>
             </Grid>
           </Grid>
@@ -129,49 +120,22 @@ const Refund = ({ cookies, token }) => {
           <Grid
             container
             direction="row"
-            justify="flex-start"
+            justifyContent="flex-start"
             alignItems="flex-start"
             spacing={2}
-            className={classes.newRefund}
+            className={classes.newWarranty}
           >
             <Grid item>
-              <NewRefund />
+              <NewRefundType cookies={cookies} />
             </Grid>
           </Grid>
         </div>
 
         <div className={classes.table}>
           <Paper variant="outlined">
-            <Grid
-              container
-              spacing={2}
-              direction="row"
-              justify="flex-start"
-              alignItems="center"
-            >
-              <div className={classes.warrantySearch}>
-                <Grid item>
-                  <TextField
-                    id="outlined-basic"
-                    label="Outlined"
-                    variant="outlined"
-                  />
-                </Grid>
-              </div>
-
-              <Grid item>
-                <Switch inputProps={{ 'aria-label': 'primary checkbox' }} />
-              </Grid>
-              <Grid item className={classes.status}>
-                <Typography variant="body1" gutterBottom>
-                  Refunded
-                </Typography>
-              </Grid>
-            </Grid>
-
             <Grid container spacing={2}>
               <Grid item lg={12}>
-                {/*<BasicTable />*/}
+                <RefundTypeTable cookies={cookies} token={token} />
               </Grid>
             </Grid>
           </Paper>
@@ -180,4 +144,4 @@ const Refund = ({ cookies, token }) => {
     </div>
   );
 };
-export default Refund;
+export default RefundType;

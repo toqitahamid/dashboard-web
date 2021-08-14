@@ -1,11 +1,46 @@
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useForm, useFormContext } from 'react-hook-form';
 import { Box, Grid, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { DatePicker, KeyboardDatePicker } from '@material-ui/pickers';
+import {
+  DatePicker,
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import DateFnsUtils from '@date-io/date-fns';
+import dayjs from 'dayjs';
 
 const OrderForm = () => {
-  const { control } = useFormContext();
+  const { control, setValue, getValues, register } = useFormContext();
+
+  const [selectedDate, setSelectedDate] = React.useState(null);
+
+  // const { handleSubmit, control, setValue, register, getValues } = useForm();
+
+  const value = getValues('rma_creation_date') as Date;
+
+  useEffect(() => {
+    register('rma_creation_date');
+  }, [register]);
+
+  useEffect(() => {
+    setSelectedDate(value || null);
+  }, [setSelectedDate, value]);
+
+  const handleDateChange = (date) => {
+    console.log(date);
+    date = dayjs(date).format('YYYY-MM-DDTHH:mm:ssZ');
+    console.log(date);
+    setSelectedDate(date);
+    setValue('rma_creation_date', date, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const formatDate = (date) => {
+    return dayjs(date).format('D MMM, YYYY h:mm A');
+  };
 
   return (
     <>
@@ -32,35 +67,23 @@ const OrderForm = () => {
           control={control}
           name="rma_creation_date"
           render={({ field }) => (
-            <TextField
-              id="rma-creation-date"
-              label="RMA Date"
-              variant="standard"
-              placeholder="Enter RMA Date"
-              fullWidth
-              margin="normal"
-              {...field}
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                // variant="inline"
+                format="dd/MM/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="RMA Create Date"
+                fullWidth
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
           )}
         />
-
-        {/*<Grid item>*/}
-        {/*  <Controller*/}
-        {/*    control={control}*/}
-        {/*    name="rma_creation_date"*/}
-        {/*    render={({ field }) => (*/}
-        {/*      <KeyboardDatePicker*/}
-        {/*        placeholder="10/10/2020"*/}
-        {/*        disableFuture*/}
-        {/*        format="dd/MM/yyyy"*/}
-        {/*        label="RMA Creation Date"*/}
-        {/*        // views={['year', 'month', 'date']}*/}
-        {/*        onChange={(date) => field.onChange(date)}*/}
-        {/*        value={field.value}*/}
-        {/*      />*/}
-        {/*    )}*/}
-        {/*  />*/}
-        {/*</Grid>*/}
 
         <Controller
           control={control}

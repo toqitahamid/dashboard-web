@@ -24,6 +24,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
+import { useRouter } from 'next/router';
+import dayjs from 'dayjs';
 
 const useStyles = makeStyles({
   table: {
@@ -112,6 +114,7 @@ TablePaginationActions.propTypes = {
 };
 
 const WarrantyTable = ({ data }) => {
+  const router = useRouter();
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
 
@@ -127,6 +130,10 @@ const WarrantyTable = ({ data }) => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const formatDate = (date) => {
+    return dayjs(date).format('D MMM, YYYY h:mm A');
   };
 
   console.log(data);
@@ -158,21 +165,25 @@ const WarrantyTable = ({ data }) => {
               <TableCell align="right">
                 <Chip variant="outlined" size="small" label={row.status} />
               </TableCell>
-              <TableCell align="right">{row.rma_creation_date}</TableCell>
               <TableCell align="right">
-                <IconButton aria-label="edit">
-                  <EditIcon className={classes.editIcon} />
-                </IconButton>
+                {formatDate(row.rma_creation_date)}
+              </TableCell>
+              <TableCell align="right">
                 {/*<Link href="/warranty/warrantyID">*/}
-                <Link
-                  as={`/warranty/warranty-details/${row.warranty_id}`}
-                  href="/warranty/warranty-details/[id]"
-                  passHref
+                {/*<Link*/}
+                {/*  as={`/warranty/warranty-details/${row.warranty_id}`}*/}
+                {/*  href="/warranty/warranty-details/[id]"*/}
+                {/*  passHref*/}
+                {/*>*/}
+                <IconButton
+                  aria-label="arrow"
+                  onClick={() =>
+                    router.push(`/warranty/warranty-details/${row.warranty_id}`)
+                  }
                 >
-                  <IconButton aria-label="arrow">
-                    <ArrowForwardIcon />
-                  </IconButton>
-                </Link>
+                  <ArrowForwardIcon />
+                </IconButton>
+                {/*</Link>*/}
               </TableCell>
             </TableRow>
           ))}

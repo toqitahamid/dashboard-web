@@ -16,9 +16,10 @@ import { useRouter } from 'next/router';
 
 import useSWR from 'swr';
 import { firebaseAdmin } from '../../../../firebaseAdmin';
-import NavBar from '../../../components/NavBar';
+import NavBar from '../../../components/navigation/navbar/NavBar';
 import StatusTable from '../../../components/warranty/status/StatusTable';
 import NewStatus from '../../../components/warranty/status/NewStatus';
+import NewStatusTable from '../../../components/warranty/status/NewStatusTable';
 
 const drawerWidth = 240;
 // @ts-ignore
@@ -124,18 +125,6 @@ const Status = ({ cookies, token }) => {
     );
   };
 
-  // const NewWarranty = () => {
-  //   return (
-  //     <Button
-  //       variant="contained"
-  //       color="primary"
-  //       onClick={() => router.push('warranty/new-warranty')}
-  //     >
-  //       + New Warranty
-  //     </Button>
-  //   );
-  // };
-
   return (
     <div className={classes.root}>
       <NavBar selectedListItem={5} token={token} />
@@ -172,36 +161,10 @@ const Status = ({ cookies, token }) => {
 
         <div className={classes.table}>
           <Paper variant="outlined">
-            <Grid
-              container
-              spacing={2}
-              direction="row"
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <div className={classes.warrantySearch}>
-                <Grid item>
-                  <TextField
-                    id="outlined-basic"
-                    label="Outlined"
-                    variant="outlined"
-                  />
-                </Grid>
-              </div>
-
-              <Grid item>
-                <Switch inputProps={{ 'aria-label': 'primary checkbox' }} />
-              </Grid>
-              <Grid item className={classes.status}>
-                <Typography variant="body1" gutterBottom>
-                  Refunded
-                </Typography>
-              </Grid>
-            </Grid>
-
             <Grid container spacing={2}>
               <Grid item lg={12}>
-                <StatusTable data={data.data} />
+                {/*<StatusTable data={data.data} />*/}
+                <NewStatusTable cookies={cookies} token={token} />
               </Grid>
             </Grid>
           </Paper>
