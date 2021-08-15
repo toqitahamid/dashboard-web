@@ -1,24 +1,25 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../auth';
+import { Button, Grid } from '@material-ui/core';
 
 const Index = () => {
-  const { user } = useAuth();
-
   return (
     <div style={{ padding: '40px' }}>
-      <p>{`User ID: ${user ? user.uid : 'no user signed in'}`}</p>
-
-      <p>
-        <Link href="/dashboard">
-          <a>Go to authenticated route</a>
-        </Link>
-      </p>
-      <p>
-        <Link href="/login">
-          <a>Login</a>
-        </Link>
-      </p>
+      <Grid
+        container
+        direction="row-reverse"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+      >
+        <Grid item>
+          <Link href="/login">
+            <Button color="primary" variant="contained">
+              Login
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
     </div>
   );
 };
