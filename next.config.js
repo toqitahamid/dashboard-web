@@ -9,4 +9,13 @@ module.exports = {
     config.plugins.push(new webpack.DefinePlugin(env));
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/dashboard',
+        permanent: true,
+      },
+    ];
+  },
 };
