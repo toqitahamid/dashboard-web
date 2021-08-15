@@ -6,9 +6,6 @@ import { Paper, TableCell } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'axios';
-import EditStatus from './EditStatus';
-import EditWarrantyReason from './EditWarrantyReason';
-import EditProductReceivedDate from './EditProductReceivedDate';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -28,7 +25,7 @@ const useToggle = (initialState = false) => {
   return [state, toggle];
 };
 
-const WarrantyInformation = ({ warrantyId, cookies }) => {
+const RefundInformation = ({ warrantyId, cookies }) => {
   const classes = useStyles();
 
   const onSubmit = (data) => console.log(data);
@@ -44,17 +41,17 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
     headers: { Authorization: `Bearer ${cookies.token}` },
   };
 
-  useEffect(() => {
-    const warranties = async () => {
-      const response = await axios(
-        `http://localhost:20801/warranty/api/v1/warranty/getWarrantyDetails/${warrantyId}`,
-        config
-      );
-      setWarrantyDetails(response.data.data);
-      console.log(response.data.data);
-    };
-    warranties();
-  }, [isStatusChanged, isDateChanged, isReasonChanged]);
+  // useEffect(() => {
+  //   const warranties = async () => {
+  //     const response = await axios(
+  //       `http://localhost:20801/warranty/api/v1/warranty/getWarrantyDetails/${warrantyId}`,
+  //       config
+  //     );
+  //     setWarrantyDetails(response.data.data);
+  //     console.log(response.data.data);
+  //   };
+  //   warranties();
+  // }, [isStatusChanged, isDateChanged, isReasonChanged]);
 
   return (
     <Paper>
@@ -63,25 +60,19 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
           <TableBody>
             <TableRow>
               <TableCell component="th" scope="row">
-                Warranty Reason
+                Refund ID
               </TableCell>
               <TableCell component="th" scope="row">
-                <EditWarrantyReason
-                  currentReason={warrantyDetails.warranty_reason}
-                  warrantyId={warrantyId}
-                  setIsReasonChanged={setIsReasonChanged}
-                  cookies={cookies}
-                />
-                {/*{warrantyDetails.warranty_reason}*/}
+                {/*{warrantyDetails.warranty_type}*/}
               </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell component="th" scope="row">
-                Warranty Type
+                Refund Type
               </TableCell>
               <TableCell component="th" scope="row">
-                {warrantyDetails.warranty_type}
+                {/*{warrantyDetails.warranty_type}*/}
               </TableCell>
             </TableRow>
 
@@ -91,27 +82,27 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
               </TableCell>
 
               <TableCell>
-                <EditStatus
-                  currentStatus={warrantyDetails.status}
-                  warrantyId={warrantyId}
-                  setIsStatusChanged={setIsStatusChanged}
-                  cookies={cookies}
-                />
+                {/*<EditStatus*/}
+                {/*  currentStatus={warrantyDetails.status}*/}
+                {/*  warrantyId={warrantyId}*/}
+                {/*  setIsStatusChanged={setIsStatusChanged}*/}
+                {/*  cookies={cookies}*/}
+                {/*/>*/}
               </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell component="th" scope="row">
-                Product Received Date
+                Refund Request Date
               </TableCell>
 
               <TableCell component="th" scope="row">
-                <EditProductReceivedDate
-                  currentDate={warrantyDetails.product_received_date}
-                  warrantyId={warrantyId}
-                  setIsDateChanged={setIsDateChanged}
-                  cookies={cookies}
-                />
+                {/*<EditProductReceivedDate*/}
+                {/*  currentDate={warrantyDetails.product_received_date}*/}
+                {/*  warrantyId={warrantyId}*/}
+                {/*  setIsDateChanged={setIsDateChanged}*/}
+                {/*  cookies={cookies}*/}
+                {/*/>*/}
               </TableCell>
             </TableRow>
           </TableBody>
@@ -121,4 +112,4 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
   );
 };
 
-export default WarrantyInformation;
+export default RefundInformation;

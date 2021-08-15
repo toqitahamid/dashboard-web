@@ -54,6 +54,21 @@ const RefundListTable = ({ cookies }) => {
       </div>
     );
 
+  const ActionButton = (value) => {
+    return (
+      <IconButton
+        aria-label="arrow"
+        onClick={() => router.push(`/refund/refund-details/${value}`)}
+      >
+        <ArrowForwardIcon />
+      </IconButton>
+    );
+  };
+
+  const StatusChip = (value) => {
+    return <Chip variant="outlined" size="small" label={value} />;
+  };
+
   const formatDate = (date) => {
     return dayjs(date).format('D MMM, YYYY h:mm A');
   };
@@ -91,9 +106,7 @@ const RefundListTable = ({ cookies }) => {
       options: {
         filter: true,
         sort: false,
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <Chip variant="outlined" size="small" label={value} />
-        ),
+        customBodyRender: (value, tableMeta, updateValue) => StatusChip(value),
       },
     },
     {
@@ -112,14 +125,8 @@ const RefundListTable = ({ cookies }) => {
       options: {
         filter: false,
         sort: false,
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <IconButton
-            aria-label="arrow"
-            onClick={() => router.push(`/refund/refund-details/${value}`)}
-          >
-            <ArrowForwardIcon />
-          </IconButton>
-        ),
+        customBodyRender: (value, tableMeta, updateValue) =>
+          ActionButton(value),
       },
     },
   ];

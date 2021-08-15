@@ -82,8 +82,8 @@ const StatusHistory = ({ warrantyId, cookies }) => {
         {/*/>*/}
 
         <Stepper orientation="vertical">
-          {data.data.map((value) => (
-            <Step active completed>
+          {data.data.map((value, index) => (
+            <Step active completed key={index}>
               <StepLabel>{value.status}</StepLabel>
               <StepContent>
                 <Typography variant="caption">

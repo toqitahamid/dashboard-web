@@ -106,7 +106,7 @@ const WarrantyList = ({ cookies, token }) => {
     return dayjs(date).format('D MMM, YYYY h:mm A');
   };
 
-  const ActionButton = ({ value }) => {
+  const ActionButton = (value) => {
     return (
       <IconButton
         aria-label="arrow"
@@ -115,6 +115,10 @@ const WarrantyList = ({ cookies, token }) => {
         <ArrowForwardIcon />
       </IconButton>
     );
+  };
+
+  const StatusChip = (value) => {
+    return <Chip variant="outlined" size="small" label={value} />;
   };
 
   const columns = [
@@ -148,9 +152,7 @@ const WarrantyList = ({ cookies, token }) => {
       options: {
         filter: true,
         sort: false,
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <Chip variant="outlined" size="small" label={value} />
-        ),
+        customBodyRender: (value, tableMeta, updateValue) => StatusChip(value),
       },
     },
     {
@@ -168,9 +170,8 @@ const WarrantyList = ({ cookies, token }) => {
       options: {
         filter: false,
         sort: false,
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <ActionButton value={value} />
-        ),
+        customBodyRender: (value, tableMeta, updateValue) =>
+          ActionButton(value),
       },
     },
   ];

@@ -30,7 +30,6 @@
     "formik": "^2.2.9",
     "formik-material-ui": "^3.0.1",
     "formik-material-ui-pickers": "^0.0.12",
-    "material-table": "^1.69.3",
     "moment": "^2.29.1",
     "mui-datatables": "^3.7.7",
     "next": "^11.1.0",

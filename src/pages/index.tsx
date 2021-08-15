@@ -13,7 +13,7 @@ const Index = () => {
         alignItems="flex-start"
       >
         <Grid item>
-          <Link href="/login">
+          <Link href="/login" passHref>
             <Button color="primary" variant="contained">
               Login
             </Button>

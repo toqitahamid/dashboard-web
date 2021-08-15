@@ -18,6 +18,7 @@ import { makeStyles } from '@material-ui/styles';
 import NavBar from '../../../components/navigation/navbar/NavBar';
 import PropTypes from 'prop-types';
 import OrderInformation from '../../../components/refund/refund-details/OrderInformation';
+import RefundInformation from '../../../components/refund/refund-details/RefundInformation';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -187,7 +188,7 @@ const Id = ({ cookies, token }) => {
             centered
           >
             <Tab label="Order" {...a11yProps(0)} />
-            {/*<Tab label="Warranty" {...a11yProps(1)} />*/}
+            <Tab label="Refund" {...a11yProps(1)} />
             {/*<Tab label="Merchant" {...a11yProps(2)} />*/}
             {/*<Tab label="Status History" {...a11yProps(3)} />*/}
             {/*<Tab label="Reason History" {...a11yProps(4)} />*/}
@@ -198,9 +199,9 @@ const Id = ({ cookies, token }) => {
           <OrderInformation refundId={id} cookies={cookies} />
         </TabPanel>
 
-        {/*<TabPanel value={value} index={1}>*/}
-        {/*  <WarrantyInformation warrantyId={id} cookies={cookies} />*/}
-        {/*</TabPanel>*/}
+        <TabPanel value={value} index={1}>
+          <RefundInformation warrantyId={id} cookies={cookies} />
+        </TabPanel>
 
         {/*<TabPanel value={value} index={2}>*/}
         {/*  <MerchantInformation warrantyId={id} cookies={cookies} />*/}

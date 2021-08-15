@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  Divider,
-  Paper,
-  TableCell,
-} from '@material-ui/core';
+import { Paper, TableCell } from '@material-ui/core';
 import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import useSWR from 'swr';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,74 +47,84 @@ const OrderInformation = ({ refundId, cookies }) => {
     headers: { Authorization: `Bearer ${cookies.token}` },
   };
 
-  useEffect(() => {
-    const orders = async () => {
-      const response = await axios(
-        `http://localhost:20802/refund/api/v1/order/get-order-details/${refundId}`
-      );
-      setOrderDetails(response.data.data);
-      console.log(response.data.data);
-    };
-    orders();
-  }, [refundId]);
+  const fetcher = (url) => fetch(url, config).then((res) => res.json());
+
+  const { data, error } = useSWR(
+    `http://localhost:20802/refund/api/v1/order/get-order-details/${refundId}`,
+    fetcher
+  );
+
+  if (error) return <div>An error has occurred</div>;
+  if (!data) return <div>Loading...</div>;
+  //
+  // useEffect(() => {
+  //   const orders = async () => {
+  //     const response = await axios(
+  //       `http://localhost:20802/refund/api/v1/order/get-order-details/${refundId}`
+  //     );
+  //     setOrderDetails(response.data.data);
+  //     console.log(response.data.data);
+  //   };
+  //   orders();
+  // }, [refundId]);
 
   const formatDate = (date) => {
     return dayjs(date).format('D MMM, YYYY h:mm A');
   };
 
   return (
-    <Paper>
+    <>
       <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableBody>
-            <TableRow>
+            <TableRow key={1}>
               <TableCell component="th" scope="row">
                 Refund ID
               </TableCell>
               <TableCell component="th" scope="row">
-                {orderDetails.refund_id}
+                {data.data.refund_id}
               </TableCell>
             </TableRow>
 
-            <TableRow>
+            <TableRow key={2}>
               <TableCell component="th" scope="row">
                 Refund Request Date
               </TableCell>
               <TableCell component="th" scope="row">
-                {formatDate(orderDetails.refund_request_date)}
+                {formatDate(data.data.refund_request_date)}
               </TableCell>
             </TableRow>
 
-            <TableRow>
+            <TableRow key={3}>
               <TableCell component="th" scope="row">
                 Order ID
               </TableCell>
               <TableCell component="th" scope="row">
-                {orderDetails.woo_order_id}
+                {data.data.woo_order_id}
               </TableCell>
             </TableRow>
 
-            <TableRow>
+            <TableRow key={4}>
               <TableCell component="th" scope="row">
                 Customer Name
               </TableCell>
               <TableCell component="th" scope="row">
-                {orderDetails.customer_name}
+                {data.data.customer_name}
               </TableCell>
             </TableRow>
 
-            <TableRow>
+            <TableRow key={5}>
               <TableCell component="th" scope="row">
                 Customer Phone
               </TableCell>
               <TableCell component="th" scope="row">
-                {orderDetails.customer_phone}
+                {data.data.customer_phone}
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-    </Paper>
+    </>
   );
 };
 
