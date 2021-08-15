@@ -108,7 +108,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Container>
-          <Box p={3}>{children}</Box>
+          <Box>{children}</Box>
         </Container>
       )}
     </div>
@@ -147,8 +147,8 @@ const Id = ({ cookies, token }) => {
     fetcher
   );
 
-  if (error) return <div>'An error has occurred.'</div>;
-  if (!data) return <div>'Loading...'</div>;
+  if (error) return <div>An error has occurred.</div>;
+  if (!data) return <div>Loading...</div>;
   // console.log(data.data);
 
   const handleChange = (event, newValue) => {

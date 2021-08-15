@@ -61,7 +61,7 @@ const OrderInformation = ({ refundId, cookies }) => {
       console.log(response.data.data);
     };
     orders();
-  }, []);
+  }, [refundId]);
 
   const formatDate = (date) => {
     return dayjs(date).format('D MMM, YYYY h:mm A');

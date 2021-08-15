@@ -83,7 +83,7 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const Index = ({ cookies, token }) => {
+const WarrantyList = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
 
@@ -104,6 +104,17 @@ const Index = ({ cookies, token }) => {
 
   const formatDate = (date) => {
     return dayjs(date).format('D MMM, YYYY h:mm A');
+  };
+
+  const ActionButton = ({ value }) => {
+    return (
+      <IconButton
+        aria-label="arrow"
+        onClick={() => router.push(`/warranty/warranty-details/${value}`)}
+      >
+        <ArrowForwardIcon />
+      </IconButton>
+    );
   };
 
   const columns = [
@@ -158,12 +169,7 @@ const Index = ({ cookies, token }) => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => (
-          <IconButton
-            aria-label="arrow"
-            onClick={() => router.push(`/warranty/warranty-details/${value}`)}
-          >
-            <ArrowForwardIcon />
-          </IconButton>
+          <ActionButton value={value} />
         ),
       },
     },
@@ -239,4 +245,4 @@ const Index = ({ cookies, token }) => {
     </div>
   );
 };
-export default Index;
+export default WarrantyList;
