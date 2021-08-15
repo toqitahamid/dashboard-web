@@ -98,9 +98,9 @@ const WarrantyList = ({ cookies, token }) => {
   );
 
   if (error) return <div>An error has occurred</div>;
-  if (!data) return <div>Loading...</div>;
+  // if (!data) return <div>Loading...</div>;
 
-  console.log(data);
+  // console.log(data);
 
   const formatDate = (date) => {
     return dayjs(date).format('D MMM, YYYY h:mm A');
@@ -241,7 +241,9 @@ const WarrantyList = ({ cookies, token }) => {
           </Grid>
         </div>
 
-        <MUIDataTable data={data.data} columns={columns} options={options} />
+        {data == [] ? (
+          <MUIDataTable data={data.data} columns={columns} options={options} />
+        ) : null}
       </div>
     </div>
   );

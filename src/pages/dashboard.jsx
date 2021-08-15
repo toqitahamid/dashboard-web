@@ -77,9 +77,9 @@ function AuthenticatedDashboard({ cookies, token }) {
   );
 
   if (error) return <div>An error has occurred</div>;
-  if (!data) return <div>Loading...</div>;
+  // if (!data) return <div>Loading...</div>;
 
-  console.log(data.data);
+  // console.log(data.data);
 
   // useEffect(() => {
   //   const warranties = async () => {
@@ -99,26 +99,28 @@ function AuthenticatedDashboard({ cookies, token }) {
         <NavBar selectedListItem={0} token={token} />
 
         <main className={classes.content}>
-          <Grid container spacing={10}>
-            {data.data.map((status) => (
-              <Grid item xs={6} key={status.id}>
-                <Card>
-                  <CardContent>
-                    <Typography
-                      className={classes.title}
-                      color="textSecondary"
-                      gutterBottom
-                    >
-                      {status.status}
-                    </Typography>
-                    <Typography variant="h5" component="h2" color="primary">
-                      {status.warranty_counts}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          {data == [] ? (
+            <Grid container spacing={10}>
+              {data.data.map((status) => (
+                <Grid item xs={6} key={status.id}>
+                  <Card>
+                    <CardContent>
+                      <Typography
+                        className={classes.title}
+                        color="textSecondary"
+                        gutterBottom
+                      >
+                        {status.status}
+                      </Typography>
+                      <Typography variant="h5" component="h2" color="primary">
+                        {status.warranty_counts}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          ) : null}
         </main>
       </div>
     </>

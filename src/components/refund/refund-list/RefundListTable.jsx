@@ -23,30 +23,30 @@ const RefundListTable = ({ cookies }) => {
   const config = {
     headers: { Authorization: `Bearer ${cookies.token}` },
   };
-  // const fetcher = (url) => fetch(url).then((res) => res.json());
+  const fetcher = (url) => fetch(url).then((res) => res.json());
 
-  const fetcher = async (url) => {
-    const res = await fetch(url);
-
-    // If the status code is not in the range 200-299,
-    // we still try to parse and throw it.
-    if (!res.ok) {
-      const error = new Error('An error occurred while fetching the data.');
-      // Attach extra info to the error object.
-      error.info = await res.json();
-      error.status = res.status;
-      throw error;
-    }
-
-    return res.json();
-  };
+  // const fetcher = async (url) => {
+  //   const res = await fetch(url);
+  //
+  //   // If the status code is not in the range 200-299,
+  //   // we still try to parse and throw it.
+  //   if (!res.ok) {
+  //     const error = new Error('An error occurred while fetching the data.');
+  //     // Attach extra info to the error object.
+  //     error.info = await res.json();
+  //     error.status = res.status;
+  //     throw error;
+  //   }
+  //
+  //   return res.json();
+  // };
 
   const { data, error } = useSWR(
     'http://localhost:20802/refund/api/v1/refund/get-refund-list',
     fetcher
   );
 
-  if (error) return <div>Add new refund to see the table</div>;
+  if (error) return <div>Loading</div>;
   if (!data)
     return (
       <div>
@@ -138,7 +138,9 @@ const RefundListTable = ({ cookies }) => {
 
   return (
     <>
-      <MUIDataTable data={data.data} columns={columns} options={options} />
+      {data == null ? (
+        <MUIDataTable data={data.data} columns={columns} options={options} />
+      ) : null}
     </>
   );
 };
