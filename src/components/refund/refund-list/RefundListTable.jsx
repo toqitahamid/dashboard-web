@@ -138,7 +138,7 @@ const RefundListTable = ({ cookies }) => {
 
   return (
     <>
-      {data == null ? (
+      {data.data != null ? (
         <MUIDataTable data={data.data} columns={columns} options={options} />
       ) : null}
     </>

@@ -241,7 +241,7 @@ const WarrantyList = ({ cookies, token }) => {
           </Grid>
         </div>
 
-        {data == [] ? (
+        {data ? (
           <MUIDataTable data={data.data} columns={columns} options={options} />
         ) : null}
       </div>

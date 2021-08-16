@@ -77,25 +77,7 @@ const OrderInformation = ({ refundId, cookies }) => {
       <TableContainer>
         <Table aria-label="simple table">
           <TableBody>
-            <TableRow key={1}>
-              <TableCell component="th" scope="row">
-                Refund ID
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {data.data.refund_id}
-              </TableCell>
-            </TableRow>
-
-            <TableRow key={2}>
-              <TableCell component="th" scope="row">
-                Refund Request Date
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {formatDate(data.data.refund_request_date)}
-              </TableCell>
-            </TableRow>
-
-            <TableRow key={3}>
+            <TableRow>
               <TableCell component="th" scope="row">
                 Order ID
               </TableCell>
@@ -104,7 +86,7 @@ const OrderInformation = ({ refundId, cookies }) => {
               </TableCell>
             </TableRow>
 
-            <TableRow key={4}>
+            <TableRow>
               <TableCell component="th" scope="row">
                 Customer Name
               </TableCell>
@@ -113,7 +95,7 @@ const OrderInformation = ({ refundId, cookies }) => {
               </TableCell>
             </TableRow>
 
-            <TableRow key={5}>
+            <TableRow>
               <TableCell component="th" scope="row">
                 Customer Phone
               </TableCell>

@@ -19,6 +19,7 @@ import NavBar from '../../../components/navigation/navbar/NavBar';
 import PropTypes from 'prop-types';
 import OrderInformation from '../../../components/refund/refund-details/OrderInformation';
 import RefundInformation from '../../../components/refund/refund-details/RefundInformation';
+import RefundStatusHistory from '../../../components/refund/refund-details/RefundStatusHistory';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -190,7 +191,7 @@ const Id = ({ cookies, token }) => {
             <Tab label="Order" {...a11yProps(0)} />
             <Tab label="Refund" {...a11yProps(1)} />
             {/*<Tab label="Merchant" {...a11yProps(2)} />*/}
-            {/*<Tab label="Status History" {...a11yProps(3)} />*/}
+            <Tab label="Status History" {...a11yProps(3)} />
             {/*<Tab label="Reason History" {...a11yProps(4)} />*/}
           </Tabs>
         </AppBar>
@@ -200,16 +201,16 @@ const Id = ({ cookies, token }) => {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          <RefundInformation warrantyId={id} cookies={cookies} />
+          <RefundInformation refundID={id} cookies={cookies} />
         </TabPanel>
 
         {/*<TabPanel value={value} index={2}>*/}
         {/*  <MerchantInformation warrantyId={id} cookies={cookies} />*/}
         {/*</TabPanel>*/}
 
-        {/*<TabPanel index={3} value={value}>*/}
-        {/*  <StatusHistory warrantyId={id} cookies={cookies} />*/}
-        {/*</TabPanel>*/}
+        <TabPanel index={2} value={value}>
+          <RefundStatusHistory refundID={id} cookies={cookies} />
+        </TabPanel>
 
         {/*<TabPanel index={4} value={value}>*/}
         {/*  <ReasonHistory warrantyId={id} cookies={cookies} />*/}

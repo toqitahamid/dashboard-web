@@ -59,6 +59,8 @@ const WarrantyStepper = ({ cookies }) => {
   });
   const [activeStep, setActiveStep] = useState(0);
   const [skippedSteps, setSkippedSteps] = useState([]);
+  const [isWarrantyExist, setIsWarrantyExist] = useState(false);
+
   const steps = getSteps();
 
   // const isStepOptional = (step) => {
@@ -94,9 +96,10 @@ const WarrantyStepper = ({ cookies }) => {
           config
         )
         .then((response) => {
-          console.log(response.data.error);
+          // console.log(response.data.error);
         })
         .catch((error) => {
+          setIsWarrantyExist(true);
           console.log(error);
         });
       setActiveStep(activeStep + 1);
@@ -151,9 +154,19 @@ const WarrantyStepper = ({ cookies }) => {
       </Stepper>
 
       {activeStep === steps.length ? (
-        <Typography variant="h3" align="center">
-          Thank You
-        </Typography>
+        !isWarrantyExist ? (
+          <Paper className={classes.paper}>
+            <Typography variant="h5" align="center">
+              Thank You
+            </Typography>
+          </Paper>
+        ) : (
+          <Paper className={classes.paper}>
+            <Typography color="primary" variant="h5" align="center">
+              Warranty Already Exist
+            </Typography>
+          </Paper>
+        )
       ) : (
         <>
           <FormProvider {...methods}>

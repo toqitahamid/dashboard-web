@@ -62,7 +62,7 @@ const OrderForm = () => {
                 format="dd/MM/yyyy"
                 margin="normal"
                 id="date-picker-inline"
-                label="RMA Create Date"
+                label="Refund Request Date"
                 fullWidth
                 value={selectedDate}
                 onChange={handleDateChange}

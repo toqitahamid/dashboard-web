@@ -5,18 +5,9 @@ import {
   AppBar,
   Box,
   Breadcrumbs,
-  Button,
-  Card,
-  CardContent,
   Container,
-  Divider,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   Tab,
-  TableCell,
   Tabs,
 } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -32,8 +23,6 @@ import WarrantyInformation from '../../../components/warranty/warranty-details/W
 import MerchantInformation from '../../../components/warranty/warranty-details/MerchantInformation';
 import StatusHistory from '../../../components/warranty/warranty-details/StatusHistory';
 import ReasonHistory from '../../../components/warranty/warranty-details/ReasonHistory';
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
