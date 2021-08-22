@@ -23,7 +23,7 @@ import {
   StarBorder,
 } from '@material-ui/icons';
 import ViewQuiltRoundedIcon from '@material-ui/icons/ViewQuiltRounded';
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { useRouter } from 'next/router';
 
@@ -37,9 +37,16 @@ const useStyles = makeStyles((theme) => ({
 const DrawerItems = ({ selectedListItem, token }) => {
   const classes = useStyles();
   const router = useRouter();
+  // console.log(token);
 
   const [openWarranty, setOpenWarranty] = React.useState(true);
   const [openRefund, setOpenRefund] = React.useState(true);
+  const [openInventory, setOpenInventory] = useState(true);
+  const [openUser, setOpenUser] = useState(true);
+
+  const handleClickInventory = () => {
+    setOpenInventory(!openInventory);
+  };
 
   const handleClickWarranty = () => {
     setOpenWarranty(!openWarranty);
@@ -47,6 +54,10 @@ const DrawerItems = ({ selectedListItem, token }) => {
 
   const handleClickRefund = () => {
     setOpenRefund(!openRefund);
+  };
+
+  const handleClickUser = () => {
+    setOpenUser(!openUser);
   };
 
   return (
@@ -95,6 +106,30 @@ const DrawerItems = ({ selectedListItem, token }) => {
           </Link>
         ) : null}
 
+        {/*<ListItem dense button onClick={handleClickInventory} key="Warranty">*/}
+        {/*  <ListItemIcon>*/}
+        {/*    <InboxIcon />*/}
+        {/*  </ListItemIcon>*/}
+        {/*  <ListItemText primary="Inventory" />*/}
+        {/*  {openInventory ? <ExpandLess /> : <ExpandMore />}*/}
+        {/*</ListItem>*/}
+        {/*<Collapse in={openInventory} timeout="auto" unmountOnExit>*/}
+        {/*  <Link href={'/inventory/stock-in'} passHref>*/}
+        {/*    <ListItem*/}
+        {/*      dense*/}
+        {/*      button*/}
+        {/*      className={classes.nested}*/}
+        {/*      selected={selectedListItem === 3}*/}
+        {/*    >*/}
+        {/*      <ListItemIcon>*/}
+        {/*        <ListAlt />*/}
+        {/*      </ListItemIcon>*/}
+        {/*      <ListItemText primary="Stock In" />*/}
+        {/*    </ListItem>*/}
+        {/*  </Link>*/}
+
+        {/*</Collapse>*/}
+
         <ListItem dense button onClick={handleClickWarranty} key="Warranty">
           <ListItemIcon>
             <InboxIcon />
@@ -131,47 +166,53 @@ const DrawerItems = ({ selectedListItem, token }) => {
             </ListItem>
           </Link>
 
-          <Link href={'/warranty/status'} passHref>
-            <ListItem
-              dense
-              button
-              className={classes.nested}
-              selected={selectedListItem === 5}
-            >
-              <ListItemIcon>
-                <AccessTime />
-              </ListItemIcon>
-              <ListItemText primary="Status" />
-            </ListItem>
-          </Link>
+          {token.storeSupport != true ? (
+            <Link href={'/warranty/status'} passHref>
+              <ListItem
+                dense
+                button
+                className={classes.nested}
+                selected={selectedListItem === 5}
+              >
+                <ListItemIcon>
+                  <AccessTime />
+                </ListItemIcon>
+                <ListItemText primary="Status" />
+              </ListItem>
+            </Link>
+          ) : null}
 
-          <Link href={'/warranty/warranty-type'} passHref>
-            <ListItem
-              dense
-              button
-              className={classes.nested}
-              selected={selectedListItem === 6}
-            >
-              <ListItemIcon>
-                <MergeType />
-              </ListItemIcon>
-              <ListItemText primary="Warranty Type" />
-            </ListItem>
-          </Link>
+          {token.storeSupport != true ? (
+            <Link href={'/warranty/warranty-type'} passHref>
+              <ListItem
+                dense
+                button
+                className={classes.nested}
+                selected={selectedListItem === 6}
+              >
+                <ListItemIcon>
+                  <MergeType />
+                </ListItemIcon>
+                <ListItemText primary="Warranty Type" />
+              </ListItem>
+            </Link>
+          ) : null}
 
-          <Link href={'/warranty/merchant'} passHref>
-            <ListItem
-              dense
-              button
-              className={classes.nested}
-              selected={selectedListItem === 7}
-            >
-              <ListItemIcon>
-                <ViewQuiltRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Merchant" />
-            </ListItem>
-          </Link>
+          {token.storeSupport != true ? (
+            <Link href={'/warranty/merchant'} passHref>
+              <ListItem
+                dense
+                button
+                className={classes.nested}
+                selected={selectedListItem === 7}
+              >
+                <ListItemIcon>
+                  <ViewQuiltRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Merchant" />
+              </ListItem>
+            </Link>
+          ) : null}
         </Collapse>
 
         <ListItem dense button onClick={handleClickRefund} key="Refund">
@@ -210,47 +251,53 @@ const DrawerItems = ({ selectedListItem, token }) => {
             </ListItem>
           </Link>
 
-          <Link href={'/refund/refund-status'} passHref>
-            <ListItem
-              dense
-              button
-              className={classes.nested}
-              selected={selectedListItem === 10}
-            >
-              <ListItemIcon>
-                <AccessTime />
-              </ListItemIcon>
-              <ListItemText primary="Refund Status" />
-            </ListItem>
-          </Link>
+          {token.storeSupport != true ? (
+            <Link href={'/refund/refund-status'} passHref>
+              <ListItem
+                dense
+                button
+                className={classes.nested}
+                selected={selectedListItem === 10}
+              >
+                <ListItemIcon>
+                  <AccessTime />
+                </ListItemIcon>
+                <ListItemText primary="Refund Status" />
+              </ListItem>
+            </Link>
+          ) : null}
 
-          <Link href={'/refund/payment-gateway'} passHref>
-            <ListItem
-              dense
-              button
-              className={classes.nested}
-              selected={selectedListItem === 11}
-            >
-              <ListItemIcon>
-                <AttachMoney />
-              </ListItemIcon>
-              <ListItemText primary="Payment Gateway" />
-            </ListItem>
-          </Link>
+          {token.storeSupport != true ? (
+            <Link href={'/refund/payment-gateway'} passHref>
+              <ListItem
+                dense
+                button
+                className={classes.nested}
+                selected={selectedListItem === 11}
+              >
+                <ListItemIcon>
+                  <AttachMoney />
+                </ListItemIcon>
+                <ListItemText primary="Payment Gateway" />
+              </ListItem>
+            </Link>
+          ) : null}
 
-          <Link href={'/refund/refund-type'} passHref>
-            <ListItem
-              dense
-              button
-              className={classes.nested}
-              selected={selectedListItem === 12}
-            >
-              <ListItemIcon>
-                <AcUnit />
-              </ListItemIcon>
-              <ListItemText primary="Refund Type" />
-            </ListItem>
-          </Link>
+          {token.storeSupport != true ? (
+            <Link href={'/refund/refund-type'} passHref>
+              <ListItem
+                dense
+                button
+                className={classes.nested}
+                selected={selectedListItem === 12}
+              >
+                <ListItemIcon>
+                  <AcUnit />
+                </ListItemIcon>
+                <ListItemText primary="Refund Type" />
+              </ListItem>
+            </Link>
+          ) : null}
         </Collapse>
       </List>
 
@@ -258,12 +305,28 @@ const DrawerItems = ({ selectedListItem, token }) => {
 
       {token.admin ? (
         <List>
-          <ListItem dense button key="Users" selected={selectedListItem === 1}>
+          <ListItem dense button onClick={handleClickUser} key="Refund">
             <ListItemIcon>
-              <Inbox />
+              <Replay />
             </ListItemIcon>
-            <ListItemText primary="Users" />
+            <ListItemText primary="User" />
+            {openUser ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
+          <Collapse in={openUser} timeout="auto" unmountOnExit>
+            <Link href={'/user/manage-user'} passHref>
+              <ListItem
+                dense
+                button
+                className={classes.nested}
+                selected={selectedListItem === 14}
+              >
+                <ListItemIcon>
+                  <Restore />
+                </ListItemIcon>
+                <ListItemText primary="Manage User" />
+              </ListItem>
+            </Link>
+          </Collapse>
         </List>
       ) : null}
     </div>

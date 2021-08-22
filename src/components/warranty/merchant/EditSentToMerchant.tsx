@@ -70,7 +70,7 @@ export default function Index({
     setOpen(false);
     const res = await axios
       .patch(
-        `http://localhost:20801/warranty/api/v1/warranty/update-sent-to-merchant/${warrantyId}`,
+        `https://api.penguin.com.bd/warranty/api/v1/warranty/update-sent-to-merchant/${warrantyId}`,
         {
           sent_to_merchant: values.sent_to_merchant,
         },

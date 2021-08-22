@@ -68,7 +68,7 @@ const WarrantyForm = ({ cookies }) => {
   useEffect(() => {
     const warrantyTypes = async () => {
       const response = await axios(
-        'http://localhost:20801/warranty/api/v1/warranty-type',
+        'https://api.penguin.com.bd/warranty/api/v1/warranty-type',
         config
       );
       setWarrantyTypeList(response.data.data);
@@ -79,7 +79,7 @@ const WarrantyForm = ({ cookies }) => {
   useEffect(() => {
     const statuses = async () => {
       const response = await axios(
-        'http://localhost:20801/warranty/api/v1/status',
+        'https://api.penguin.com.bd/warranty/api/v1/status',
         config
       );
       setStatusList(response.data.data);
@@ -91,7 +91,7 @@ const WarrantyForm = ({ cookies }) => {
   useEffect(() => {
     const merchants = async () => {
       const response = await axios(
-        'http://localhost:20801/warranty/api/v1/merchant',
+        'https://api.penguin.com.bd/warranty/api/v1/merchant',
         config
       );
       setMerchantNameList(response.data.data);
@@ -99,7 +99,7 @@ const WarrantyForm = ({ cookies }) => {
     merchants();
   }, []);
 
-  console.log(merchantNameList);
+  // console.log(merchantNameList);
 
   return (
     <>

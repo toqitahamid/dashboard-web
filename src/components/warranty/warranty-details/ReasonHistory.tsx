@@ -38,7 +38,7 @@ const ReasonHistory = ({ warrantyId, cookies }) => {
   const fetcher = (url) => fetch(url, config).then((res) => res.json());
 
   const { data, error } = useSWR(
-    `http://localhost:20801/warranty/api/v1/warranty/getWarrantyReasonHistory/${warrantyId}`,
+    `https://api.penguin.com.bd/warranty/api/v1/warranty/getWarrantyReasonHistory/${warrantyId}`,
     fetcher
   );
 

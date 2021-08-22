@@ -23,6 +23,7 @@ import WarrantyInformation from '../../../components/warranty/warranty-details/W
 import MerchantInformation from '../../../components/warranty/warranty-details/MerchantInformation';
 import StatusHistory from '../../../components/warranty/warranty-details/StatusHistory';
 import ReasonHistory from '../../../components/warranty/warranty-details/ReasonHistory';
+import UserDetails from '../../../components/user/user-details/UserDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -125,19 +126,16 @@ const Id = ({ cookies, token }) => {
 
   const [value, setValue] = React.useState(0);
 
-  const fetcher = (url) =>
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-    }).then((res) => res.json());
-  const { data, error } = useSWR(
-    `https://api.penguin.com.bd/warranty/api/v1/order/getOrderDetails/${id}`,
-    fetcher
-  );
-
-  if (error) return <div>An error has occurred.</div>;
-  if (!data) return <div>Loading...</div>;
+  // const fetcher = (url) =>
+  //   fetch(url, {
+  //     headers: {
+  //       Authorization: `Bearer ${cookies.token}`,
+  //     },
+  //   }).then((res) => res.json());
+  // const { data, error } = useSWR(`http://localhost:20803/user/${id}`, fetcher);
+  //
+  // if (error) return <div>An error has occurred.</div>;
+  // if (!data) return <div>Loading...</div>;
   // console.log(data.data);
 
   const handleChange = (event, newValue) => {
@@ -153,10 +151,10 @@ const Id = ({ cookies, token }) => {
         <Link color="inherit" href="/dashboard">
           Home
         </Link>
-        <Link color="inherit" href="/warranty/warranty-list">
-          Warranty
+        <Link color="inherit" href="/user/manage-user">
+          User
         </Link>
-        <Typography color="textPrimary">Warranty Details</Typography>
+        <Typography color="textPrimary">User Details</Typography>
       </Breadcrumbs>
     );
   };
@@ -164,14 +162,14 @@ const Id = ({ cookies, token }) => {
   // @ts-ignore
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={4} token={token} />
+      <NavBar selectedListItem={14} token={token} />
 
       <div className={classes.content}>
         <div className={classes.breadcrumb}>
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="h5" gutterBottom>
-                Warranty List
+                User Details
               </Typography>
             </Grid>
           </Grid>
@@ -183,41 +181,38 @@ const Id = ({ cookies, token }) => {
           </Grid>
         </div>
 
-        <AppBar position="static">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="fullWidth"
-            aria-label="simple tabs example"
-            centered
-          >
-            <Tab label="Order" {...a11yProps(0)} />
-            <Tab label="Warranty" {...a11yProps(1)} />
-            <Tab label="Merchant" {...a11yProps(2)} />
-            <Tab label="Status History" {...a11yProps(3)} />
-            <Tab label="Reason History" {...a11yProps(4)} />
-          </Tabs>
-        </AppBar>
+        <UserDetails cookies={cookies} id={id} />
 
-        <TabPanel value={value} index={0}>
-          <OrderInformation data={data} />
-        </TabPanel>
-
-        <TabPanel value={value} index={1}>
-          <WarrantyInformation warrantyId={id} cookies={cookies} />
-        </TabPanel>
-
-        <TabPanel value={value} index={2}>
-          <MerchantInformation warrantyId={id} cookies={cookies} />
-        </TabPanel>
-
-        <TabPanel index={3} value={value}>
-          <StatusHistory warrantyId={id} cookies={cookies} />
-        </TabPanel>
-
-        <TabPanel index={4} value={value}>
-          <ReasonHistory warrantyId={id} cookies={cookies} />
-        </TabPanel>
+        {/*<AppBar position="static">*/}
+        {/*  <Tabs*/}
+        {/*    value={value}*/}
+        {/*    onChange={handleChange}*/}
+        {/*    variant="fullWidth"*/}
+        {/*    aria-label="simple tabs example"*/}
+        {/*    centered*/}
+        {/*  >*/}
+        {/*    <Tab label="Order" {...a11yProps(0)} />*/}
+        {/*    <Tab label="Warranty" {...a11yProps(1)} />*/}
+        {/*    <Tab label="Merchant" {...a11yProps(2)} />*/}
+        {/*    <Tab label="Status History" {...a11yProps(3)} />*/}
+        {/*    <Tab label="Reason History" {...a11yProps(4)} />*/}
+        {/*  </Tabs>*/}
+        {/*</AppBar>*/}
+        {/*<TabPanel value={value} index={0}>*/}
+        {/*  <OrderInformation data={data} />*/}
+        {/*</TabPanel>*/}
+        {/*<TabPanel value={value} index={1}>*/}
+        {/*  <WarrantyInformation warrantyId={id} cookies={cookies} />*/}
+        {/*</TabPanel>*/}
+        {/*<TabPanel value={value} index={2}>*/}
+        {/*  <MerchantInformation warrantyId={id} cookies={cookies} />*/}
+        {/*</TabPanel>*/}
+        {/*<TabPanel index={3} value={value}>*/}
+        {/*  <StatusHistory warrantyId={id} cookies={cookies} />*/}
+        {/*</TabPanel>*/}
+        {/*<TabPanel index={4} value={value}>*/}
+        {/*  <ReasonHistory warrantyId={id} cookies={cookies} />*/}
+        {/*</TabPanel>*/}
       </div>
     </div>
   );

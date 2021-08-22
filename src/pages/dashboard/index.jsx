@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import nookies from 'nookies';
-import { firebaseAdmin } from '../../firebaseAdmin';
+import { firebaseAdmin } from '../../../firebaseAdmin';
 import { GetServerSidePropsContext } from 'next';
-import NavBar from '../components/navigation/navbar/NavBar';
+import NavBar from '../../components/navigation/navbar/NavBar';
 import { makeStyles } from '@material-ui/styles';
 import useSWR from 'swr';
 import { Card, CardContent, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import WarrantyStatusCard from '../../components/dashboard/WarrantyStatusCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,22 +66,6 @@ function AuthenticatedDashboard({ cookies, token }) {
 
   const [statusData, setStatusData] = useState();
 
-  const config = {
-    headers: { Authorization: `Bearer ${cookies.token}` },
-  };
-
-  const fetcher = (url) => fetch(url, config).then((res) => res.json());
-
-  const { data, error } = useSWR(
-    'http://localhost:20801/warranty/api/v1/status/getWarrantyCountByStatusName',
-    fetcher
-  );
-
-  if (error) return <div>An error has occurred</div>;
-  // if (!data) return <div>Loading...</div>;
-
-  // console.log(data.data);
-
   // useEffect(() => {
   //   const warranties = async () => {
   //     const response = await axios(
@@ -99,28 +84,7 @@ function AuthenticatedDashboard({ cookies, token }) {
         <NavBar selectedListItem={0} token={token} />
 
         <main className={classes.content}>
-          {data == [] ? (
-            <Grid container spacing={10}>
-              {data.data.map((status) => (
-                <Grid item xs={6} key={status.id}>
-                  <Card>
-                    <CardContent>
-                      <Typography
-                        className={classes.title}
-                        color="textSecondary"
-                        gutterBottom
-                      >
-                        {status.status}
-                      </Typography>
-                      <Typography variant="h5" component="h2" color="primary">
-                        {status.warranty_counts}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          ) : null}
+          <WarrantyStatusCard cookies={cookies} />
         </main>
       </div>
     </>

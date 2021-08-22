@@ -15,7 +15,7 @@ const Index = ({ cookies, token }) => {
   const fetcher = (url) => fetch(url, config).then((res) => res.json());
 
   const { data, error } = useSWR(
-    'http://localhost:20801/warranty/api/v1/status',
+    'https://api.penguin.com.bd/warranty/api/v1/status',
     fetcher
   );
 
@@ -68,6 +68,12 @@ const Index = ({ cookies, token }) => {
     responsive: 'standard',
   };
 
-  return <MUIDataTable data={data.data} columns={columns} options={options} />;
+  return (
+    <>
+      {data.data != null ? (
+        <MUIDataTable data={data.data} columns={columns} options={options} />
+      ) : null}
+    </>
+  );
 };
 export default Index;

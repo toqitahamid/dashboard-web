@@ -7,10 +7,8 @@ import { firebaseClient } from '../../../../firebaseClient';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from '../../../../auth';
+// import logo from './image/logo.png';
 import Image from 'next/image';
-import logoImage from '../../../../public/logo.png';
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,13 +32,15 @@ const useStyles = makeStyles((theme) => ({
     // paddingLeft: drawerWidth,
     paddingLeft: theme.spacing(10),
   },
+  logo: {
+    maxWidth: 40,
+    marginRight: '10px',
+  },
 }));
 
 const Header = ({ handleDrawerToggle }) => {
   const classes = useStyles();
   const user = useAuth();
-
-  const LogoComponent = () => <Image src={logoImage} />;
 
   return (
     <>
@@ -55,10 +55,7 @@ const Header = ({ handleDrawerToggle }) => {
           >
             <MenuIcon />
           </IconButton>
-
-          {/*<LogoComponent />*/}
-          {/*<Image src={logoImage} alt="logo" layout="responsive" />*/}
-
+          {/*<img src="/public/logo.png" alt="penguin" />*/}
           <Grid
             container
             direction="row"

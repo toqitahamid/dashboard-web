@@ -64,7 +64,7 @@ export default function FormDialog({
   useEffect(() => {
     const statuses = async () => {
       const response = await axios(
-        `http://localhost:20801/warranty/api/v1/status`,
+        `https://api.penguin.com.bd/warranty/api/v1/status`,
         config
       );
       setStatusList(response.data.data);

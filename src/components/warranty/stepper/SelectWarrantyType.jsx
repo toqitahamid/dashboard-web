@@ -24,7 +24,7 @@ const SelectWarrantyType = ({ field }) => {
   let warrantyTypeList;
 
   axios
-    .get('http://localhost:20801/warranty/api/v1/warranty-type')
+    .get('https://api.penguin.com.bd/warranty/api/v1/warranty-type')
     .then(function (response) {
       warrantyTypeList = response.data;
     })

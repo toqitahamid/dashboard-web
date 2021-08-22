@@ -34,7 +34,7 @@ export default function FormDialog({ cookies }) {
   const onSubmit = async (values) => {
     axios
       .post(
-        'http://localhost:20801/warranty/api/v1/merchant',
+        'https://api.penguin.com.bd/warranty/api/v1/merchant',
         {
           name: values.name,
         },

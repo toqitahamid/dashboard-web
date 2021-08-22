@@ -59,6 +59,8 @@ const RefundStepper = () => {
   });
   const [activeStep, setActiveStep] = useState(0);
   const [skippedSteps, setSkippedSteps] = useState([]);
+  const [isRefundExist, setIsRefundExist] = useState(false);
+
   const steps = getSteps();
 
   // const isStepOptional = (step) => {
@@ -87,6 +89,7 @@ const RefundStepper = () => {
           console.log(response.data.error);
         })
         .catch((error) => {
+          setIsRefundExist(true);
           console.log(error);
         });
       setActiveStep(activeStep + 1);
@@ -141,9 +144,19 @@ const RefundStepper = () => {
       </Stepper>
 
       {activeStep === steps.length ? (
-        <Typography variant="h3" align="center">
-          Thank You
-        </Typography>
+        !isRefundExist ? (
+          <Paper className={classes.paper}>
+            <Typography variant="h5" align="center">
+              Thank You
+            </Typography>
+          </Paper>
+        ) : (
+          <Paper className={classes.paper}>
+            <Typography color="primary" variant="h5" align="center">
+              This order is on the refund list
+            </Typography>
+          </Paper>
+        )
       ) : (
         <>
           <FormProvider {...methods}>

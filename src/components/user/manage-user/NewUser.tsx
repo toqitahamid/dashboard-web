@@ -6,16 +6,33 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Divider } from '@material-ui/core';
+import { Divider, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { Controller, useForm } from 'react-hook-form';
 import axios from 'axios';
+import { FormControl } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    display: 'block',
+    marginTop: 16,
+  },
+  formControl: {
+    // margin: 8,
+    minWidth: 300,
+    // paddingBottom: 30,
+  },
+}));
 
 export default function FormDialog({ cookies }) {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
-      status: '',
+      email: '',
+      password: '',
+      display_name: '',
     },
   });
 
@@ -34,14 +51,17 @@ export default function FormDialog({ cookies }) {
   const onSubmit = async (values) => {
     axios
       .post(
-        'https://api.penguin.com.bd/warranty/api/v1/status',
+        'http://localhost:20803/user',
         {
-          status: values.status,
+          email: values.email,
+          password: values.password,
+          email_verified: true,
+          display_name: values.display_name,
         },
         config
       )
       .then(function (response) {
-        console.log(response);
+        console.log(response.data.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -51,7 +71,7 @@ export default function FormDialog({ cookies }) {
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        + New Status
+        + New User
       </Button>
 
       <Dialog
@@ -65,12 +85,12 @@ export default function FormDialog({ cookies }) {
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
-          <DialogTitle id="form-dialog-title">New Status</DialogTitle>
+          <DialogTitle id="form-dialog-title">New User</DialogTitle>
 
           <DialogContent dividers>
             <Controller
               control={control}
-              name="status"
+              name="email"
               render={({
                 field: { onChange, value },
                 fieldState: { error },
@@ -84,7 +104,7 @@ export default function FormDialog({ cookies }) {
                   onChange={onChange}
                   error={!!error}
                   // id="email"
-                  label="Status"
+                  label="Email"
                   // name="email"
                   // autoComplete="email"
                   // autoFocus
@@ -93,7 +113,60 @@ export default function FormDialog({ cookies }) {
               )}
               rules={{ required: 'Email is required ' }}
             />
+
+            <Controller
+              control={control}
+              name="password"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  // id="email"
+                  label="Password"
+                  // name="email"
+                  // autoComplete="email"
+                  // autoFocus
+                  helperText={error ? error.message : null}
+                />
+              )}
+              rules={{ required: 'Password is required ' }}
+            />
+
+            <Controller
+              control={control}
+              name="display_name"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  // id="email"
+                  label="Name"
+                  // name="email"
+                  // autoComplete="email"
+                  // autoFocus
+                  helperText={error ? error.message : null}
+                />
+              )}
+              rules={{ required: 'Name is required ' }}
+            />
           </DialogContent>
+
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel

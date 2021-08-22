@@ -97,7 +97,7 @@ const Index = ({ cookies, token }) => {
         <Link color="inherit" href="/dashboard">
           Home
         </Link>
-        <Typography color="textPrimary">Warranty</Typography>
+        <Typography color="textPrimary">Refund</Typography>
       </Breadcrumbs>
     );
   };

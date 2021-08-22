@@ -1,27 +1,19 @@
 import React, { useEffect } from 'react';
 import nookies from 'nookies';
+import { firebaseAdmin } from '../../../../firebaseAdmin';
+import NavBar from '../../../components/navigation/navbar/NavBar';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Breadcrumbs,
-  Button,
-  Grid,
-  Paper,
-  Switch,
-  TextField,
-} from '@material-ui/core';
+import { Breadcrumbs, Button, Grid } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { useRouter } from 'next/router';
+import WarrantyListTable from '../../../components/warranty/warranty-list/WarrantyListTable';
+import ManageUserListTable from '../../../components/user/manage-user/ManageUserListTable';
+import NewUser from '../../../components/user/manage-user/NewUser';
+import UpdateUser from '../../../components/user/manage-user/UpdateUser';
+import CustomClaims from '../../../components/user/manage-user/CustomClaims';
 
-import useSWR from 'swr';
-import { firebaseAdmin } from '../../../../firebaseAdmin';
-import NavBar from '../../../components/navigation/navbar/NavBar';
-import StatusTable from '../../../components/warranty/status/StatusTable';
-import NewStatus from '../../../components/warranty/status/NewStatus';
-import NewStatusTable from '../../../components/warranty/status/NewStatusTable';
-
-const drawerWidth = 240;
 // @ts-ignore
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,15 +50,6 @@ export const getServerSideProps = async (ctx) => {
     // the user is authenticated!
     // FETCH STUFF HERE
 
-    // const res = await fetch(`http://localhost:20801/warranty/api/v1/status`);
-    // const data = await res.json();
-    //
-    // if (!data) {
-    //   return {
-    //     notFound: true,
-    //   };
-    // }
-
     return {
       // props: { login: `Your email is ${email} and your UID is ${uid}.` },
       props: { cookies, token },
@@ -90,25 +73,9 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const Status = ({ cookies, token }) => {
+const ManageUser = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
-
-  const config = {
-    headers: { Authorization: `Bearer ${cookies.token}` },
-  };
-
-  const fetcher = (url) => fetch(url, config).then((res) => res.json());
-
-  // const { data, error } = useSWR(
-  //   'http://localhost:20801/warranty/api/v1/status',
-  //   fetcher
-  // );
-
-  // if (error) return <div>An error has occurred</div>;
-  // if (!data) return <div>Loading...</div>;
-
-  // console.log(data);
 
   const Breadcrumb = () => {
     return (
@@ -119,22 +86,21 @@ const Status = ({ cookies, token }) => {
         <Link color="inherit" href="/dashboard">
           Home
         </Link>
-        <Typography color="textPrimary">Warranty</Typography>
-        <Typography color="textPrimary">Status</Typography>
+        <Typography color="textPrimary">User</Typography>
       </Breadcrumbs>
     );
   };
 
   return (
     <div className={classes.root}>
-      <NavBar selectedListItem={5} token={token} />
+      <NavBar selectedListItem={14} token={token} />
 
       <div className={classes.content}>
         <div>
           <Grid container spacing={2}>
             <Grid item>
               <Typography variant="h5" gutterBottom>
-                Status List
+                User List
               </Typography>
             </Grid>
           </Grid>
@@ -150,27 +116,30 @@ const Status = ({ cookies, token }) => {
             direction="row"
             justifyContent="flex-start"
             alignItems="flex-start"
-            spacing={2}
+            spacing={6}
             className={classes.newWarranty}
           >
             <Grid item>
-              <NewStatus cookies={cookies} />
+              <NewUser cookies={cookies} />
+            </Grid>
+
+            <Grid item>
+              <UpdateUser cookies={cookies} />
+            </Grid>
+
+            <Grid item>
+              <CustomClaims cookies={cookies} />
             </Grid>
           </Grid>
         </div>
 
-        <div className={classes.table}>
-          <Paper variant="outlined">
-            <Grid container spacing={2}>
-              <Grid item lg={12}>
-                {/*<StatusTable data={data.data} />*/}
-                <NewStatusTable cookies={cookies} token={token} />
-              </Grid>
-            </Grid>
-          </Paper>
-        </div>
+        <ManageUserListTable cookies={cookies} />
+
+        {/*{data.data != null ? (*/}
+        {/*  <MUIDataTable data={data.data} columns={columns} options={options} />*/}
+        {/*) : null}*/}
       </div>
     </div>
   );
 };
-export default Status;
+export default ManageUser;

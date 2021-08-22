@@ -47,7 +47,7 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
   useEffect(() => {
     const warranties = async () => {
       const response = await axios(
-        `http://localhost:20801/warranty/api/v1/warranty/getWarrantyDetails/${warrantyId}`,
+        `https://api.penguin.com.bd/warranty/api/v1/warranty/getWarrantyDetails/${warrantyId}`,
         config
       );
       setWarrantyDetails(response.data.data);

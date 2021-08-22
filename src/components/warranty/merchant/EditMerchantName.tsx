@@ -77,7 +77,7 @@ export default function FormDialog({
     setOpen(false);
     const res = await axios
       .patch(
-        `http://localhost:20801/warranty/api/v1/warranty/update-merchant-name/${warrantyId}`,
+        `https://api.penguin.com.bd/warranty/api/v1/warranty/update-merchant-name/${warrantyId}`,
         {
           merchant_name: values.merchant_name,
         },

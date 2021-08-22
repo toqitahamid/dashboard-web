@@ -79,7 +79,7 @@ const WarrantyStepper = ({ cookies }) => {
     if (activeStep == steps.length - 1) {
       axios
         .post(
-          'http://localhost:20801/warranty/api/v1/warranty/create',
+          'https://api.penguin.com.bd/warranty/api/v1/warranty/create',
           {
             rma_id: data.rma_id,
             rma_creation_date: data.rma_creation_date,

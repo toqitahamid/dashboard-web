@@ -3,27 +3,13 @@ import nookies from 'nookies';
 import { firebaseAdmin } from '../../../../firebaseAdmin';
 import NavBar from '../../../components/navigation/navbar/NavBar';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Breadcrumbs,
-  Button,
-  Chip,
-  Grid,
-  IconButton,
-  Paper,
-  Switch,
-  TextField,
-} from '@material-ui/core';
+import { Breadcrumbs, Button, Grid } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { useRouter } from 'next/router';
+import WarrantyListTable from '../../../components/warranty/warranty-list/WarrantyListTable';
 
-import MUIDataTable from 'mui-datatables';
-import useSWR from 'swr';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import dayjs from 'dayjs';
-
-const drawerWidth = 240;
 // @ts-ignore
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,100 +73,6 @@ const WarrantyList = ({ cookies, token }) => {
   const router = useRouter();
   const classes = useStyles();
 
-  const config = {
-    headers: { Authorization: `Bearer ${cookies.token}` },
-  };
-  const fetcher = (url) => fetch(url, config).then((res) => res.json());
-
-  const { data, error } = useSWR(
-    'http://localhost:20801/warranty/api/v1/warranty/getWarrantyList',
-    fetcher
-  );
-
-  if (error) return <div>An error has occurred</div>;
-  // if (!data) return <div>Loading...</div>;
-
-  // console.log(data);
-
-  const formatDate = (date) => {
-    return dayjs(date).format('D MMM, YYYY h:mm A');
-  };
-
-  const ActionButton = (value) => {
-    return (
-      <IconButton
-        aria-label="arrow"
-        onClick={() => router.push(`/warranty/warranty-details/${value}`)}
-      >
-        <ArrowForwardIcon />
-      </IconButton>
-    );
-  };
-
-  const StatusChip = (value) => {
-    return <Chip variant="outlined" size="small" label={value} />;
-  };
-
-  const columns = [
-    {
-      name: 'rma_id',
-      label: 'RMA ID',
-      options: {
-        filter: false,
-        sort: true,
-      },
-    },
-    {
-      name: 'order_id',
-      label: 'Order ID',
-      options: {
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'customer_name',
-      label: 'Customer Name',
-      options: {
-        filter: false,
-        sort: false,
-      },
-    },
-    {
-      name: 'status',
-      label: 'Status',
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRender: (value, tableMeta, updateValue) => StatusChip(value),
-      },
-    },
-    {
-      name: 'rma_creation_date',
-      label: 'RMA Creation Date',
-      options: {
-        filter: false,
-        sort: false,
-        customBodyRender: (value, tableMeta, updateValue) => formatDate(value),
-      },
-    },
-    {
-      name: 'warranty_id',
-      label: 'Action',
-      options: {
-        filter: false,
-        sort: false,
-        customBodyRender: (value, tableMeta, updateValue) =>
-          ActionButton(value),
-      },
-    },
-  ];
-
-  const options = {
-    filterType: 'dropdown',
-    responsive: 'standard',
-  };
-
   const Breadcrumb = () => {
     return (
       <Breadcrumbs
@@ -241,9 +133,11 @@ const WarrantyList = ({ cookies, token }) => {
           </Grid>
         </div>
 
-        {data ? (
-          <MUIDataTable data={data.data} columns={columns} options={options} />
-        ) : null}
+        <WarrantyListTable cookies={cookies} />
+
+        {/*{data.data != null ? (*/}
+        {/*  <MUIDataTable data={data.data} columns={columns} options={options} />*/}
+        {/*) : null}*/}
       </div>
     </div>
   );

@@ -6,16 +6,18 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Divider } from '@material-ui/core';
+import { Divider, MenuItem, Select } from '@material-ui/core';
 import { Controller, useForm } from 'react-hook-form';
 import axios from 'axios';
+import { bool } from 'yup';
 
 export default function FormDialog({ cookies }) {
   const [open, setOpen] = React.useState(false);
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
-      status: '',
+      uid: '',
+      key: '',
     },
   });
 
@@ -33,10 +35,11 @@ export default function FormDialog({ cookies }) {
 
   const onSubmit = async (values) => {
     axios
-      .post(
-        'https://api.penguin.com.bd/warranty/api/v1/status',
+      .put(
+        'http://localhost:20803/user-custom-claims',
         {
-          status: values.status,
+          uid: values.uid,
+          claims: [{ key: values.key, value: true }],
         },
         config
       )
@@ -51,7 +54,7 @@ export default function FormDialog({ cookies }) {
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        + New Status
+        Add Custom Claims
       </Button>
 
       <Dialog
@@ -65,12 +68,12 @@ export default function FormDialog({ cookies }) {
           noValidate
           onSubmit={handleSubmit(onSubmit)}
         >
-          <DialogTitle id="form-dialog-title">New Status</DialogTitle>
+          <DialogTitle id="form-dialog-title">Add Custom Claims</DialogTitle>
 
           <DialogContent dividers>
             <Controller
               control={control}
-              name="status"
+              name="uid"
               render={({
                 field: { onChange, value },
                 fieldState: { error },
@@ -84,7 +87,7 @@ export default function FormDialog({ cookies }) {
                   onChange={onChange}
                   error={!!error}
                   // id="email"
-                  label="Status"
+                  label="User ID"
                   // name="email"
                   // autoComplete="email"
                   // autoFocus
@@ -93,6 +96,60 @@ export default function FormDialog({ cookies }) {
               )}
               rules={{ required: 'Email is required ' }}
             />
+
+            {/*<Controller*/}
+            {/*  control={control}*/}
+            {/*  name="key"*/}
+            {/*  render={({*/}
+            {/*    field: { onChange, value },*/}
+            {/*    fieldState: { error },*/}
+            {/*  }) => (*/}
+            {/*    <TextField*/}
+            {/*      variant="outlined"*/}
+            {/*      margin="normal"*/}
+            {/*      required*/}
+            {/*      fullWidth*/}
+            {/*      value={value}*/}
+            {/*      onChange={onChange}*/}
+            {/*      error={!!error}*/}
+            {/*      // id="email"*/}
+            {/*      label="Claim Name"*/}
+            {/*      // name="email"*/}
+            {/*      // autoComplete="email"*/}
+            {/*      // autoFocus*/}
+            {/*      helperText={error ? error.message : null}*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*  rules={{ required: 'Password is required ' }}*/}
+            {/*/>*/}
+
+            {/*<FormControl className={classes.formControl}>*/}
+            {/*  <InputLabel id="status">Role</InputLabel>*/}
+            <Controller
+              control={control}
+              name="key"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <Select
+                  labelId="claim-key"
+                  id="claim-key"
+                  fullWidth
+                  label="Role"
+                  variant="outlined"
+                  value={value}
+                  // onChange={(data) => onChange(data)}
+                  onChange={onChange}
+                >
+                  <MenuItem value={'admin'}>Admin</MenuItem>
+                  <MenuItem value={'storeManager'}>Store Manager</MenuItem>
+                  <MenuItem value={'storeSupport'}>Store Support</MenuItem>
+                </Select>
+              )}
+              rules={{ required: 'Password is required ' }}
+            />
+            {/*</FormControl>*/}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">

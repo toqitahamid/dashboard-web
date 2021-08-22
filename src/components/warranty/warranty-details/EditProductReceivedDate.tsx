@@ -102,7 +102,7 @@ export default function FormDialog({
     setOpen(false);
     const res = await axios
       .patch(
-        `http://localhost:20801/warranty/api/v1/warranty/update-product-received-date/${warrantyId}`,
+        `https://api.penguin.com.bd/warranty/api/v1/warranty/update-product-received-date/${warrantyId}`,
         {
           product_received_date: values.product_received_date,
         },

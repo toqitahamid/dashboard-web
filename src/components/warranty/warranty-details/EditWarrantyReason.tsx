@@ -73,7 +73,7 @@ export default function FormDialog({
     setOpen(false);
     const res = await axios
       .patch(
-        `http://localhost:20801/warranty/api/v1/warranty/updateWarrantyReason/${warrantyId}`,
+        `https://api.penguin.com.bd/warranty/api/v1/warranty/updateWarrantyReason/${warrantyId}`,
         {
           reason: values.warranty_reason,
         },
