@@ -119,7 +119,7 @@ export default function Index({
                       <MenuItem value={'Product Repaired'}>
                         Product Repaired
                       </MenuItem>
-                      <MenuItem value={'Product Replacement'}>
+                      <MenuItem value={'Product Replaced'}>
                         Product Replacement
                       </MenuItem>
                     </Select>
