@@ -100,20 +100,20 @@ const WarrantyInformation = ({ warrantyId, cookies }) => {
               </TableCell>
             </TableRow>
 
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Product Received Date
-              </TableCell>
+            {/*<TableRow>*/}
+            {/*  <TableCell component="th" scope="row">*/}
+            {/*    Product Received Date*/}
+            {/*  </TableCell>*/}
 
-              <TableCell component="th" scope="row">
-                <EditProductReceivedDate
-                  currentDate={warrantyDetails.product_received_date}
-                  warrantyId={warrantyId}
-                  setIsDateChanged={setIsDateChanged}
-                  cookies={cookies}
-                />
-              </TableCell>
-            </TableRow>
+            {/*  <TableCell component="th" scope="row">*/}
+            {/*    <EditProductReceivedDate*/}
+            {/*      currentDate={warrantyDetails.product_received_date}*/}
+            {/*      warrantyId={warrantyId}*/}
+            {/*      setIsDateChanged={setIsDateChanged}*/}
+            {/*      cookies={cookies}*/}
+            {/*    />*/}
+            {/*  </TableCell>*/}
+            {/*</TableRow>*/}
           </TableBody>
         </Table>
       </TableContainer>

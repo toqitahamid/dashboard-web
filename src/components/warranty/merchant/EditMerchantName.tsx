@@ -56,7 +56,7 @@ export default function FormDialog({
   useEffect(() => {
     const merchants = async () => {
       const response = await axios(
-        `http://localhost:20801/warranty/api/v1/merchant`,
+        `https://api.penguin.com.bd/warranty/api/v1/merchant`,
         config
       );
       setMerchantList(response.data.data);

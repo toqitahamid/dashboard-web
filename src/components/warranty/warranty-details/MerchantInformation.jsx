@@ -134,53 +134,53 @@ const MerchantInformation = ({ warrantyId, cookies }) => {
               </TableCell>
             </TableRow>
 
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Sent to Merchant
-              </TableCell>
-              <TableCell component="th" scope="row">
-                <EditSentToMerchant
-                  currentSentToMerchant={merchantDetails.sent_to_merchant}
-                  warrantyId={warrantyId}
-                  setIsSentToMerchantChanged={setIsSentToMerchantChanged}
-                  cookies={cookies}
-                />
-              </TableCell>
-            </TableRow>
+            {/*<TableRow>*/}
+            {/*  <TableCell component="th" scope="row">*/}
+            {/*    Sent to Merchant*/}
+            {/*  </TableCell>*/}
+            {/*  <TableCell component="th" scope="row">*/}
+            {/*    <EditSentToMerchant*/}
+            {/*      currentSentToMerchant={merchantDetails.sent_to_merchant}*/}
+            {/*      warrantyId={warrantyId}*/}
+            {/*      setIsSentToMerchantChanged={setIsSentToMerchantChanged}*/}
+            {/*      cookies={cookies}*/}
+            {/*    />*/}
+            {/*  </TableCell>*/}
+            {/*</TableRow>*/}
 
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Date sent to Merchant
-              </TableCell>
-              <TableCell component="th" scope="row">
-                <EditSentDateToMerchant
-                  currentSentDateToMerchant={
-                    merchantDetails.product_sent_date_to_merchant
-                  }
-                  setIsSentDateToMerchantChanged={setIsSentDateToMerchantChange}
-                  warrantyId={warrantyId}
-                  cookies={cookies}
-                />
-              </TableCell>
-            </TableRow>
+            {/*<TableRow>*/}
+            {/*  <TableCell component="th" scope="row">*/}
+            {/*    Date sent to Merchant*/}
+            {/*  </TableCell>*/}
+            {/*  <TableCell component="th" scope="row">*/}
+            {/*    <EditSentDateToMerchant*/}
+            {/*      currentSentDateToMerchant={*/}
+            {/*        merchantDetails.product_sent_date_to_merchant*/}
+            {/*      }*/}
+            {/*      setIsSentDateToMerchantChanged={setIsSentDateToMerchantChange}*/}
+            {/*      warrantyId={warrantyId}*/}
+            {/*      cookies={cookies}*/}
+            {/*    />*/}
+            {/*  </TableCell>*/}
+            {/*</TableRow>*/}
 
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Date received from Merchant
-              </TableCell>
-              <TableCell component="th" scope="row">
-                <EditReceivedDateFromMerchant
-                  currentReceivedDateFromMerchant={
-                    merchantDetails.product_received_date_from_merchant
-                  }
-                  warrantyId={warrantyId}
-                  setIsReceivedDateFromMerchantChanged={
-                    setIsReceivedDateFromMerchantChange
-                  }
-                  cookies={cookies}
-                />
-              </TableCell>
-            </TableRow>
+            {/*<TableRow>*/}
+            {/*  <TableCell component="th" scope="row">*/}
+            {/*    Date received from Merchant*/}
+            {/*  </TableCell>*/}
+            {/*  <TableCell component="th" scope="row">*/}
+            {/*    <EditReceivedDateFromMerchant*/}
+            {/*      currentReceivedDateFromMerchant={*/}
+            {/*        merchantDetails.product_received_date_from_merchant*/}
+            {/*      }*/}
+            {/*      warrantyId={warrantyId}*/}
+            {/*      setIsReceivedDateFromMerchantChanged={*/}
+            {/*        setIsReceivedDateFromMerchantChange*/}
+            {/*      }*/}
+            {/*      cookies={cookies}*/}
+            {/*    />*/}
+            {/*  </TableCell>*/}
+            {/*</TableRow>*/}
 
             <TableRow>
               <TableCell component="th" scope="row">
