@@ -9,8 +9,6 @@ import {
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import useSWR from 'swr';
-import SelectWarrantyType from './SelectWarrantyType';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({

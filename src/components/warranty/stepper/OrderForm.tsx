@@ -131,6 +131,7 @@ const OrderForm = () => {
               {...field}
             />
           )}
+          rules={{ required: 'Sku is required' }}
         />
 
         <Controller
