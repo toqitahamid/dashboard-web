@@ -94,11 +94,11 @@ export default function FormDialog({ cookies }) {
     const body = {
       app_key: '5tunt4masn6pv2hnvte1sb5n3j',
       app_secret: '1vggbqd4hqk9g96o9rrrp2jftvek578v7d2bnerim12a87dbrrka',
-      'Content-Type': 'application/json',
     };
     const headers = {
       username: 'sandboxTestUser',
       password: 'hWD@8vtzw0',
+      'Content-Type': 'application/json',
     };
     axios
       .post(url, body, { headers })
