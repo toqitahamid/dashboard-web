@@ -9,6 +9,7 @@ import axios from 'axios';
 import useSWR from 'swr';
 import { Skeleton } from '@material-ui/lab';
 import EditRefundStatus from './EditRefundStatus';
+import BkashRefund from './BkashRefund';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -129,7 +130,8 @@ const RefundInformation = ({ refundID, cookies }) => {
                 </TableCell>
 
                 <TableCell component="th" scope="row">
-                  <Button variant="outlined">Refund</Button>
+                  {/*<Button variant="outlined">Refund</Button>*/}
+                  <BkashRefund cookies={cookies} />
                 </TableCell>
               </TableRow>
             ) : null}

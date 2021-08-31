@@ -106,29 +106,30 @@ const DrawerItems = ({ selectedListItem, token }) => {
           </Link>
         ) : null}
 
-        {/*<ListItem dense button onClick={handleClickInventory} key="Warranty">*/}
-        {/*  <ListItemIcon>*/}
-        {/*    <InboxIcon />*/}
-        {/*  </ListItemIcon>*/}
-        {/*  <ListItemText primary="Inventory" />*/}
-        {/*  {openInventory ? <ExpandLess /> : <ExpandMore />}*/}
-        {/*</ListItem>*/}
-        {/*<Collapse in={openInventory} timeout="auto" unmountOnExit>*/}
-        {/*  <Link href={'/inventory/stock-in'} passHref>*/}
-        {/*    <ListItem*/}
-        {/*      dense*/}
-        {/*      button*/}
-        {/*      className={classes.nested}*/}
-        {/*      selected={selectedListItem === 3}*/}
-        {/*    >*/}
-        {/*      <ListItemIcon>*/}
-        {/*        <ListAlt />*/}
-        {/*      </ListItemIcon>*/}
-        {/*      <ListItemText primary="Stock In" />*/}
-        {/*    </ListItem>*/}
-        {/*  </Link>*/}
-
-        {/*</Collapse>*/}
+        <ListItem dense button onClick={handleClickInventory} key="Inventory">
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Inventory" />
+          {openInventory ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        {token.admin ? (
+          <Collapse in={openInventory} timeout="auto" unmountOnExit>
+            <Link href={'/inventory/stock-in'} passHref>
+              <ListItem
+                dense
+                button
+                className={classes.nested}
+                selected={selectedListItem === 3}
+              >
+                <ListItemIcon>
+                  <ListAlt />
+                </ListItemIcon>
+                <ListItemText primary="Stock In" />
+              </ListItem>
+            </Link>
+          </Collapse>
+        ) : null}
 
         <ListItem dense button onClick={handleClickWarranty} key="Warranty">
           <ListItemIcon>
