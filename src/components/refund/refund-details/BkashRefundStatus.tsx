@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormDialog({ setRefundDetails, cookies }) {
+export default function FormDialog({ setRefundStatusDetails, cookies }) {
   const [open, setOpen] = React.useState(false);
 
   const [statusUpdateSuccessSnackbarOpen, setStatusUpdateSuccessSnackbarOpen] =
@@ -39,10 +39,7 @@ export default function FormDialog({ setRefundDetails, cookies }) {
   const { handleSubmit, control } = useForm({
     defaultValues: {
       payment_id: '',
-      amount: '',
       trx_id: '',
-      sku: '',
-      reason: '',
     },
   });
 
@@ -97,19 +94,16 @@ export default function FormDialog({ setRefundDetails, cookies }) {
     setOpen(false);
 
     const refundUrl =
-      'http://localhost:20802/refund/api/v1/refund/bkash-refund';
+      'http://localhost:20802/refund/api/v1/refund/bkash-refund-status';
 
     axios
       .post(refundUrl, {
         payment_id: values.payment_id,
         trx_id: values.trx_id,
-        amount: values.amount,
-        sku: values.sku,
-        reason: values.reason,
       })
       .then((response) => {
         console.log(response);
-        setRefundDetails(response.data);
+        setRefundStatusDetails(response.data);
         setStatusUpdateSuccessSnackbarOpen(true);
       })
       .catch((error) => {
@@ -172,60 +166,6 @@ export default function FormDialog({ setRefundDetails, cookies }) {
                       label="Transaction ID"
                       variant="standard"
                       placeholder="Enter Transaction ID"
-                      fullWidth
-                      margin="normal"
-                      value={field.value}
-                      onChange={(data) => field.onChange(data)}
-                      {...field}
-                    />
-                  )}
-                />
-
-                <Controller
-                  control={control}
-                  name="amount"
-                  render={({ field }) => (
-                    <TextField
-                      id="amount"
-                      label="Amount"
-                      variant="standard"
-                      placeholder="Enter Amount"
-                      fullWidth
-                      margin="normal"
-                      value={field.value}
-                      onChange={(data) => field.onChange(data)}
-                      {...field}
-                    />
-                  )}
-                />
-
-                <Controller
-                  control={control}
-                  name="sku"
-                  render={({ field }) => (
-                    <TextField
-                      id="sku"
-                      label="SKU"
-                      variant="standard"
-                      placeholder="Enter SKU"
-                      fullWidth
-                      margin="normal"
-                      value={field.value}
-                      onChange={(data) => field.onChange(data)}
-                      {...field}
-                    />
-                  )}
-                />
-
-                <Controller
-                  control={control}
-                  name="reason"
-                  render={({ field }) => (
-                    <TextField
-                      id="reason"
-                      label="Reason"
-                      variant="standard"
-                      placeholder="Enter Reason for refund"
                       fullWidth
                       margin="normal"
                       value={field.value}

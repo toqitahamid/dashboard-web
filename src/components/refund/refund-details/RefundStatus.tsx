@@ -10,6 +10,7 @@ import useSWR from 'swr';
 import { Skeleton } from '@material-ui/lab';
 import EditRefundStatus from './EditRefundStatus';
 import BkashRefund from './BkashRefund';
+import BkashRefundStatus from './BkashRefundStatus';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -29,7 +30,7 @@ const useToggle = (initialState = false) => {
   return [state, toggle];
 };
 
-const RefundInformation = ({ refundID, cookies }) => {
+const RefundStatus = ({ refundID, cookies }) => {
   const classes = useStyles();
 
   const onSubmit = (data) => console.log(data);
@@ -40,7 +41,7 @@ const RefundInformation = ({ refundID, cookies }) => {
   const [isReasonChanged, setIsReasonChanged] = useToggle();
 
   const [warrantyDetails, setWarrantyDetails] = useState([]);
-  const [refundDetails, setRefundDetails] = useState();
+  const [refundStatusDetails, setRefundStatusDetails] = useState();
 
   const config = {
     headers: { Authorization: `Bearer ${cookies.token}` },
@@ -61,86 +62,28 @@ const RefundInformation = ({ refundID, cookies }) => {
       </div>
     );
 
-  console.log(data);
-
-  // useEffect(() => {
-  //   const warranties = async () => {
-  //     const response = await axios(
-  //       `http://localhost:20801/warranty/api/v1/warranty/getWarrantyDetails/${warrantyId}`,
-  //       config
-  //     );
-  //     setWarrantyDetails(response.data.data);
-  //     console.log(response.data.data);
-  //   };
-  //   warranties();
-  // }, [isStatusChanged, isDateChanged, isReasonChanged]);
-
   return (
     <Paper>
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <TableBody>
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Refund Type
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {data.data.refund_type}
-              </TableCell>
-            </TableRow>
-
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Refund Amount
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {data.data.refund_amount}
-              </TableCell>
-            </TableRow>
-
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Refund Status
-              </TableCell>
-
-              <TableCell>
-                {/*{data.data.refund_status}*/}
-                <EditRefundStatus
-                  currentStatus={data.data.refund_status}
-                  refundID={refundID}
-                  setIsStatusChanged={setIsStatusChanged}
-                  cookies={cookies}
-                />
-              </TableCell>
-            </TableRow>
-
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Payment Gateway
-              </TableCell>
-
-              <TableCell component="th" scope="row">
-                {data.data.payment_gateway}
-              </TableCell>
-            </TableRow>
-
             {data.data.payment_gateway == 'bKash' ? (
               <TableRow>
                 <TableCell component="th" scope="row">
-                  bKash Refund
+                  bKash Refund Status
                 </TableCell>
 
                 <TableCell component="th" scope="row">
                   {/*<Button variant="outlined">Refund</Button>*/}
-                  <BkashRefund
-                    setRefundDetails={setRefundDetails}
+                  <BkashRefundStatus
+                    setRefundStatusDetails={setRefundStatusDetails}
                     cookies={cookies}
                   />
                 </TableCell>
               </TableRow>
             ) : null}
 
-            {refundDetails != null ? (
+            {refundStatusDetails != null ? (
               <>
                 <TableRow>
                   <TableCell component="th" scope="row">
@@ -148,7 +91,7 @@ const RefundInformation = ({ refundID, cookies }) => {
                   </TableCell>
 
                   <TableCell component="th" scope="row">
-                    {refundDetails.data.completedTime}
+                    {refundStatusDetails.data.completedTime}
                   </TableCell>
                 </TableRow>
 
@@ -158,7 +101,7 @@ const RefundInformation = ({ refundID, cookies }) => {
                   </TableCell>
 
                   <TableCell component="th" scope="row">
-                    {refundDetails.data.originalTrxID}
+                    {refundStatusDetails.data.originalTrxID}
                   </TableCell>
                 </TableRow>
 
@@ -168,7 +111,7 @@ const RefundInformation = ({ refundID, cookies }) => {
                   </TableCell>
 
                   <TableCell component="th" scope="row">
-                    {refundDetails.data.refundTrxID}
+                    {refundStatusDetails.data.refundTrxID}
                   </TableCell>
                 </TableRow>
 
@@ -178,7 +121,7 @@ const RefundInformation = ({ refundID, cookies }) => {
                   </TableCell>
 
                   <TableCell component="th" scope="row">
-                    {refundDetails.data.transactionStatus}
+                    {refundStatusDetails.data.transactionStatus}
                   </TableCell>
                 </TableRow>
 
@@ -188,7 +131,7 @@ const RefundInformation = ({ refundID, cookies }) => {
                   </TableCell>
 
                   <TableCell component="th" scope="row">
-                    {refundDetails.data.amount}
+                    {refundStatusDetails.data.amount}
                   </TableCell>
                 </TableRow>
 
@@ -198,7 +141,7 @@ const RefundInformation = ({ refundID, cookies }) => {
                   </TableCell>
 
                   <TableCell component="th" scope="row">
-                    {refundDetails.data.charge}
+                    {refundStatusDetails.data.charge}
                   </TableCell>
                 </TableRow>
               </>
@@ -210,4 +153,4 @@ const RefundInformation = ({ refundID, cookies }) => {
   );
 };
 
-export default RefundInformation;
+export default RefundStatus;
